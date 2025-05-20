@@ -20,49 +20,45 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0 0 0 10">
-            <Button Content="Navigation" Width="80" Margin="4" Style="{StaticResource ButtonPrimary}"/>
-            <Button Content="Smart views" Width="80" Margin="2"/>
-            <Button Content="Clashes" Width="80" Margin="2"/>
-            <Button Content="Lists" Width="80" Margin="2"/>
-            <Button Content="Issues" Width="80" Margin="2"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right"
-                    Margin="0 0 0 10">
-            <Button Content="Add" Width="80" Margin="2"/>
-            <Button Content="Edit" Width="80" Margin="2"/>
-            <Button Content="Delete" Width="80" Margin="2"/>
-            <Button Content="sort" Width="80" Margin="2"/>
-            <TextBox Width="80" Margin="2"/>
-        </StackPanel>
-        <ScrollViewer Grid.Row="2" Margin="2" BorderBrush="Gray" BorderThickness="2"/>
-        <StackPanel Grid.Row="3" Margin="0 5">
-            <TextBlock Text="Comment:" Margin="0 0 0 2"/>
 
+        <DockPanel Grid.Row="0" Margin="0 0 0 10">
+
+            <Button Content="➕ Add" Width="80" Margin="2" Style="{StaticResource ButtonPrimary}"/>
+            <Button Content="✏️ Edit" Width="80" Margin="2" Style="{StaticResource ButtonDefault}"/>
+            <Button Content="🗑️ Delete" Width="80" Margin="2" Style="{StaticResource ButtonDanger}"/>
+            <ComboBox Margin="2" DockPanel.Dock="Right" />
+        </DockPanel>
+
+
+        <ScrollViewer Grid.Row="1"/>
+            
+        <StackPanel Grid.Row="2" Margin="0 5">
+            <TextBlock Text="Comment:" Margin="0 0 0 2" Style="{StaticResource TextBlockSubTitleBold}" HorizontalAlignment="Left"/>
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
                 <TextBox Grid.Column="0"
                          Height="120"
                          AcceptsReturn="True"
                          VerticalScrollBarVisibility="Auto"
                          Margin="0 0 5 0"/>
-
                 <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="0">
                     <Image Stretch="UniformToFill" />
                 </Border>
             </Grid>
         </StackPanel>
+        
+        
+        <!-- Data Grid to be styled after we add some content so that we can see styling effects. -->
+
         <DataGrid x:Name="CommentGrid"
-                  Grid.Row="4"
+                  Grid.Row="3"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   HeadersVisibility="Column"
