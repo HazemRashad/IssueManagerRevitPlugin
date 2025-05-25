@@ -1,5 +1,4 @@
-﻿using Autodesk.Revit.DB;
-using IssueManager.ViewModels;
+﻿using IssueManager.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +16,11 @@ using System.Windows.Shapes;
 namespace IssueManager.Views
 {
     /// <summary>
-    /// Interaction logic for AddIssueView.xaml
+    /// Interaction logic for AddCompanyView.xaml
     /// </summary>
-    public partial class AddIssueView : HandyControl.Controls.Window
+    public partial class AddCompanyView : Window
     {
-        public AddIssueView(AddIssueViewModel viewModel)
+        public AddCompanyView(AddCompanyViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

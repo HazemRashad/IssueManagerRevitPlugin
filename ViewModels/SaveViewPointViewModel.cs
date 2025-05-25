@@ -1,15 +1,13 @@
-﻿
+﻿using Autodesk.Revit.UI;
 using System.Collections.ObjectModel;
 using System.IO;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 
 namespace IssueManager.ViewModels
 {
     [INotifyPropertyChanged]
-    public sealed partial class SaveViewPointViewModel 
+    public sealed partial class SaveViewPointViewModel
     {
-        public ObservableCollection<string> MasterList { get; set; }   
+        public ObservableCollection<string> MasterList { get; set; }
         public string SelectedMaster { get; set; }
         public string TaskName { get; set; }
         public string Comment { get; set; }

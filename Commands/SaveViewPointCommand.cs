@@ -11,10 +11,9 @@ namespace IssueManager.Commands
     {
         public override void Execute()
         {
-            var viewModel = new SaveViewPointViewModel();
-            var view = new SaveViewPointView(viewModel);
+            var viewModel = new AddCompanyViewModel();
+            var view = new AddCompanyView(viewModel);
             view.ShowDialog();
-
         }
     }
 }
