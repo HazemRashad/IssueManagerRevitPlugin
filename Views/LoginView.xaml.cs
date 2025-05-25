@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace IssueManager.Views
 {
     /// <summary>
-    /// Interaction logic for AddIssueView.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class AddIssueView : HandyControl.Controls.Window
+    public partial class LoginView : HandyControl.Controls.Window
     {
-        public AddIssueView()
+        public LoginView()
         {
             InitializeComponent();
         }
