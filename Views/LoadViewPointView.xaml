@@ -8,7 +8,8 @@
         xmlns:viewModels="clr-namespace:IssueManager.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
-        Title="LoadViewPointView" Height="800" Width="500">
+        ResizeMode="NoResize" Title="LoadViewPointView" 
+        Height="800" Width="500">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -44,6 +45,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <!--Text Block instead of TexxtBox-->
                 <TextBox Grid.Column="0"
                      Height="120"
                      AcceptsReturn="True"
