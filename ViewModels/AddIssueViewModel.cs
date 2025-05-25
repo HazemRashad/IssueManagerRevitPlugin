@@ -39,7 +39,7 @@ namespace IssueManager.ViewModels
         public ObservableCollection<AssignLabelToIssueDto> SelectedLabels { get; set; } = new();
 
         // === Comments ===
-        [ObservableProperty] private string? commentContent;
+        private string? commentContent;
 
         // === Commands ===
         public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);

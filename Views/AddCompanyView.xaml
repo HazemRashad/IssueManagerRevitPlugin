@@ -9,7 +9,9 @@
     <Grid>
         <TextBlock Text="Add Company" FontSize="24" FontWeight="Bold" Margin="10" HorizontalAlignment="Center"/>
         <TextBlock Text="Company Name:" Margin="10,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBox Margin="10,90,10,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Stretch"/>
-        <Button x:Name="SaveButton" Content="Save" Margin="10,130,10,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="100"/>
+        <TextBox Margin="10,90,10,0" 
+                 Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Stretch"/>
+        <Button x:Name="SaveButton" Command="{Binding SaveCommand}"
+                Content="Save" Margin="10,130,10,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="100"/>
     </Grid>
 </Window>

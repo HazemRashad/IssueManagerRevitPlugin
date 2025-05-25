@@ -13,14 +13,15 @@ namespace IssueManager.ViewModels
     {
         private readonly CompanyApiServices _apiService = new();
 
-        private string _companyName = string.Empty;
+       [ObservableProperty] private string companyName = string.Empty;
+
         public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
 
         private async Task SaveAsync()
         {
             var dto = new DTOs.Companies.CreateCompanyDto
             {
-                CompanyName = _companyName
+                CompanyName = CompanyName
             };
 
             bool result = await _apiService.CreateCompanyAsync(dto);
