@@ -64,6 +64,12 @@
         <!-- MVVM -->
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="DTOs">
+        <HintPath>..\BIM Issue Manager\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
+      </Reference>
+    </ItemGroup>
     
     <ItemGroup>
         <Resource Include="Resources\Icons\RibbonIcon16.png" />
