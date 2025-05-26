@@ -1,4 +1,5 @@
-﻿using IssueManager.Srevices;
+﻿using IssueManager.Models;
+using IssueManager.Srevices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,13 @@ namespace IssueManager.ViewModels
     {
         private readonly CompanyApiServices _apiService = new();
 
-       [ObservableProperty] private string companyName = string.Empty;
+        [ObservableProperty] private string companyName = string.Empty;
 
         public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
 
         private async Task SaveAsync()
         {
-            var dto = new DTOs.Companies.CreateCompanyDto
+            var dto = new DummyCompanyDTO
             {
                 CompanyName = CompanyName
             };

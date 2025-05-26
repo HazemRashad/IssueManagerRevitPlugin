@@ -1,5 +1,6 @@
 ﻿using DTOs.Companies;
 using DTOs.Issues;
+using IssueManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace IssueManager.Srevices
             };
         }
 
-        public async Task<bool> CreateCompanyAsync(CreateCompanyDto dto)
+        public async Task<bool> CreateCompanyAsync(DummyCompanyDTO dto)
         {
             var response = await _client.PostAsJsonAsync("Companies", dto);
             return response.IsSuccessStatusCode;
