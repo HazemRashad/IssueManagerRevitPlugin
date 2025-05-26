@@ -42,47 +42,47 @@ namespace IssueManager.ViewModels
         private string? commentContent;
 
         // === Commands ===
-        public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
+        //public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
         //public IRelayCommand CancelCommand => new RelayCommand(() => CloseWindow());
 
-        private async Task SaveAsync()
-        {
-            var dto = new CreateIssueDto
-            {
-                Title = title,
-                Description = description,
-                AssignedToUserId = assignedToUserId,
-                AreaId = areaId,
-                Priority = priority,
-                CreatedAt = DateTime.UtcNow,
-                CreatedByUserId = CreatedByUserId,
-                ProjectId = ProjectId,
-                LabelIds = SelectedLabels.Select(l => l.LabelId).ToList(),
-                RevitElements = string.IsNullOrWhiteSpace(snapshotImagePath)
-                    ? new List<RevitElementDto>()
-                    : new List<RevitElementDto>
-                    {
-                        new()
-                        {
-                            ElementId = "123",
-                            ElementUniqueId = "ABC-123",
-                            SnapshotImagePath = snapshotImagePath,
-                            ViewpointCameraPosition = "0,0,0"
-                        }
-                    }
-            };
+        //private async Task SaveAsync()
+        //{
+        //    var dto = new CreateIssueDto
+        //    {
+        //        Title = title,
+        //        Description = description,
+        //        AssignedToUserId = assignedToUserId,
+        //        AreaId = areaId,
+        //        Priority = priority,
+        //        CreatedAt = DateTime.UtcNow,
+        //        CreatedByUserId = CreatedByUserId,
+        //        ProjectId = ProjectId,
+        //        LabelIds = SelectedLabels.Select(l => l.LabelId).ToList(),
+        //        RevitElements = string.IsNullOrWhiteSpace(snapshotImagePath)
+        //            ? new List<RevitElementDto>()
+        //            : new List<RevitElementDto>
+        //            {
+        //                new()
+        //                {
+        //                    ElementId = "123",
+        //                    ElementUniqueId = "ABC-123",
+        //                    SnapshotImagePath = snapshotImagePath,
+        //                    ViewpointCameraPosition = "0,0,0"
+        //                }
+        //            }
+        //    };
 
-            bool result = await _apiService.CreateIssueAsync(dto);
-            if (result)
-            {
-                MessageBox.Show("Issue created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                //CloseWindow();
-            }
-            else
-            {
-                MessageBox.Show("Failed to create issue.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //    bool result = await _apiService.CreateIssueAsync(dto);
+        //    if (result)
+        //    {
+        //        MessageBox.Show("Issue created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        //        //CloseWindow();
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Failed to create issue.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
         //private void CloseWindow()
         //{
