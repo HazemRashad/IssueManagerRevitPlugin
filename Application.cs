@@ -1,6 +1,4 @@
-﻿
-
-namespace IssueManager
+﻿namespace IssueManager
 {
     /// <summary>
     ///     Application entry point
