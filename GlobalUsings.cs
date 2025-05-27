@@ -1,0 +1,16 @@
+﻿global using IssueManager.Models;
+global using System.Net.Http;
+global using System.Net.Http.Json;
+global using IssueManager.Srevices;
+global using System.Windows;
+global using DTOs.Issues;
+global using Autodesk.Revit.Attributes;
+global using IssueManager.Resources;
+global using IssueManager.ViewModels;
+global using IssueManager.Views;
+global using Nice3point.Revit.Toolkit.External;
+global using System.Windows.Interop;
+global using System.Windows.Media;
+global using Autodesk.Windows;
+global using IssueManager.Commands;
+global using Nice3point.Revit.Toolkit.External;

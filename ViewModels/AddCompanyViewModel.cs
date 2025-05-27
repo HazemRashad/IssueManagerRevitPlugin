@@ -1,13 +1,4 @@
-﻿using IssueManager.Models;
-using IssueManager.Srevices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace IssueManager.ViewModels
+﻿namespace IssueManager.ViewModels
 {
     [INotifyPropertyChanged]
     public sealed partial class AddCompanyViewModel

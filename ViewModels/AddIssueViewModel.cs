@@ -1,18 +1,7 @@
-﻿using Autodesk.Revit.DB;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DTOs.Comments;
-using DTOs.IssueLabel;
-using DTOs.Issues;
+﻿using DTOs.IssueLabel;
 using DTOs.Labels;
-using DTOs.RevitElements;
 using IssueManager.Srevices;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace IssueManager.ViewModels
 {

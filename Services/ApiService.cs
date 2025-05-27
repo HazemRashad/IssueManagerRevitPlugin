@@ -1,9 +1,4 @@
-﻿using DTOs.Issues;
-using System.Net.Http;
-using System.Net.Http.Json;
-
-
-namespace IssueManager.Srevices
+﻿namespace IssueManager.Srevices
 {
     public class ApiService
     {

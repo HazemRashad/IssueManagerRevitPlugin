@@ -1,7 +1,4 @@
-﻿using IssueManager.Commands;
-using Nice3point.Revit.Toolkit.External;
-
-namespace IssueManager
+﻿namespace IssueManager
 {
     /// <summary>
     ///     Application entry point

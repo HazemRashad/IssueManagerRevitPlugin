@@ -1,9 +1,4 @@
-﻿using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows;
-using Autodesk.Windows;
-
-namespace IssueManager.Resources
+﻿namespace IssueManager.Resources
 {
     public static class WindowRevitHandler
     {

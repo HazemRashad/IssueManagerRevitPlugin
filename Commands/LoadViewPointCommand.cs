@@ -1,10 +1,4 @@
-﻿using Autodesk.Revit.Attributes;
-using IssueManager.Resources;
-using IssueManager.ViewModels;
-using IssueManager.Views;
-using Nice3point.Revit.Toolkit.External;
-
-namespace IssueManager.Commands
+﻿namespace IssueManager.Commands
 {
     [UsedImplicitly]
     [Transaction(TransactionMode.Manual)]
