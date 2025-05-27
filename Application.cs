@@ -1,4 +1,4 @@
-﻿using IssueManager.Constants;
+﻿
 
 namespace IssueManager
 {
@@ -8,10 +8,12 @@ namespace IssueManager
     [UsedImplicitly]
     public class Application : ExternalApplication
     {
+        public static IHost AppHost { get; private set; }   
         public override void OnStartup()
         {
             CreateRibbon();
-            DependencyInjection.AddProjectServices();
+            AppHost = HostingExtensions.BuildAppHost();
+            AppHost.Start();
         }
         private void CreateRibbon()
         {

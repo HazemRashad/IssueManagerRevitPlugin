@@ -54,6 +54,7 @@
     <ItemGroup>
         <!-- Revit References -->
         <PackageReference Include="HandyControls" Version="3.5.3" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
         <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*" />
