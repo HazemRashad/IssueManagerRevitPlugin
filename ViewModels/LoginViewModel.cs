@@ -3,5 +3,6 @@
     [INotifyPropertyChanged]
     public class LoginViewModel
     {
+
     }
 }

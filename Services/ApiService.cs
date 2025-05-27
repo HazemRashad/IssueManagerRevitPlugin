@@ -4,18 +4,10 @@
     {
         private readonly HttpClient _client;
 
-        public ApiService()
+        public ApiService(HttpClient client)
         {
-            _client = new HttpClient
-            {
-                BaseAddress = new Uri("https://localhost:44374/api/")
-            };
+            _client = client;
         }
 
-        public async Task<bool> CreateIssueAsync(CreateIssueDto dto)
-        {
-            var response = await _client.PostAsJsonAsync("issues", dto);
-            return response.IsSuccessStatusCode;
-        }
     }
 }

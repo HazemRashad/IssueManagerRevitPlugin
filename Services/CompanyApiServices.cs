@@ -8,7 +8,7 @@
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44374/api/")
+                BaseAddress = new Uri("https://localhost:44374/")
             };
         }
 

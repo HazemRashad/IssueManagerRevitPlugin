@@ -7,7 +7,7 @@ namespace IssueManager.Views
     /// </summary>
     public partial class AddIssueView : HandyControl.Controls.Window
     {
-        public AddIssueView(AddIssueViewModel viewModel)
+        public AddIssueView(SaveViewPointViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

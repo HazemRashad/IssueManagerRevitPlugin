@@ -118,6 +118,7 @@
                 <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
 
+            <!--Remove Comments section-->
             <StackPanel Grid.Column="0" Margin="0 0 10 0">
                 <TextBlock Text="Comment:" Margin="0 0 0 4"/>
                 <TextBox AcceptsReturn="True" Height="100" VerticalScrollBarVisibility="Auto"/>

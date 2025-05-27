@@ -5,7 +5,7 @@
     {
         private readonly CompanyApiServices _apiService = new();
 
-        [ObservableProperty] private string companyName = string.Empty;
+        private string companyName = string.Empty;
 
         public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
 
@@ -13,7 +13,7 @@
         {
             var dto = new DummyCompanyDTO
             {
-                CompanyName = CompanyName
+                CompanyName = companyName
             };
 
             bool result = await _apiService.CreateCompanyAsync(dto);

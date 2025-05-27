@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace IssueManager.ViewModels
 {
     [INotifyPropertyChanged]
-    public sealed partial class AddIssueViewModel
+    public sealed partial class SaveViewPointViewModel
     {
         private readonly ApiService _apiService = new();
 
