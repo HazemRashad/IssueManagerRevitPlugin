@@ -68,7 +68,15 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="System.Net.Http.Json" Version="9.0.5" />
     </ItemGroup>
-	
+
+    <!-- Configuration -->
+    <ItemGroup>
+	    <None Update="appsettings.json">
+		    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    </None>
+    </ItemGroup>
+
+    <!-- DTOs Library -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<Reference Include="DTOs">
 			<HintPath>..\BIMIsuueManagerAPI\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
