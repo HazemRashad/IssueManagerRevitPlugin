@@ -1,4 +1,6 @@
-﻿namespace IssueManager
+﻿using IssueManager.Constants;
+
+namespace IssueManager
 {
     /// <summary>
     ///     Application entry point
@@ -9,6 +11,7 @@
         public override void OnStartup()
         {
             CreateRibbon();
+            DependencyInjection.AddProjectServices();
         }
         private void CreateRibbon()
         {

@@ -8,7 +8,7 @@ namespace IssueManager.ViewModels
     [INotifyPropertyChanged]
     public sealed partial class SaveViewPointViewModel
     {
-        private readonly ApiService _apiService = new();
+        private readonly ApiService _apiService;
 
         // === Form Fields ===
         private string title;

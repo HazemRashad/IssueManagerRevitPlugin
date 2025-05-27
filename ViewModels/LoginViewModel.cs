@@ -1,7 +1,7 @@
 ﻿namespace IssueManager.ViewModels
 {
     [INotifyPropertyChanged]
-    public class LoginViewModel
+    public partial class LoginViewModel
     {
 
     }
