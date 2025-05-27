@@ -13,7 +13,7 @@ namespace IssueManager.Srevices
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7042/api/")
+                BaseAddress = new Uri("https://localhost:44374/api/")
             };
         }
 

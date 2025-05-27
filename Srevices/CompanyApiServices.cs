@@ -19,13 +19,13 @@ namespace IssueManager.Srevices
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7042/api/")
+                BaseAddress = new Uri("https://localhost:44374/api/")
             };
         }
 
         public async Task<bool> CreateCompanyAsync(DummyCompanyDTO dto)
         {
-            var response = await _client.PostAsJsonAsync("Companies", dto);
+            var response = await _client.PostAsJsonAsync("Companies/create", dto);
             return response.IsSuccessStatusCode;
         }
     }
