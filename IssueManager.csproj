@@ -82,13 +82,12 @@
 			<HintPath>..\BIMIsuueManagerAPI\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
 		</Reference>
 	</ItemGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
 		<Reference Include="DTOs">
 			<HintPath>..\BIMIsuueManagerAPI\DTOs\bin\Debug\net48\DTOs.dll</HintPath>
 		</Reference>
-
 	</ItemGroup>
+	
     <ItemGroup>
         <Resource Include="Resources\Icons\RibbonIcon16.png" />
         <Resource Include="Resources\Icons\RibbonIcon32.png" />
