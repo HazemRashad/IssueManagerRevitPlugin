@@ -14,10 +14,11 @@
                 client.BaseAddress = new Uri(settings.BaseUrl);
             });
 
-            services.TryAddTransient<IssueApiService,IssueApiService>();
-            services.TryAddTransient<CompanyApiService,CompanyApiService>();
-            services.TryAddTransient<ProjectApiService,ProjectApiService>();
-            services.TryAddTransient<UserApiService,UserApiService>();
+            services.TryAddTransient<ApiService>();
+            services.TryAddTransient<IssueApiService>();
+            services.TryAddTransient<CompanyApiService>();
+            services.TryAddTransient<ProjectApiService>();
+            services.TryAddTransient<UserApiService>();
 
             return services;
         }
