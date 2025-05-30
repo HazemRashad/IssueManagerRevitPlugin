@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IssueManager.Views"
+        xmlns:viewmodels="clr-namespace:IssueManager.ViewModels"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="Add Issue" Height="470" Width="500"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -31,19 +32,20 @@
 
             <!-- Title -->
             <TextBlock Text="Title:" />
-            <TextBox Height="30" Margin="0 0 0 10"/>
+            <TextBox Height="30" Margin="0 0 0 10" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Assigned to -->
             <TextBlock Text="Assigned to:" />
-            <ComboBox Height="30" Margin="0 0 0 10"/>
+            <ComboBox Height="30" Margin="0 0 0 10" SelectedItem="{Binding AssignedToUserId}"/>
 
             <!-- Area -->
             <TextBlock Text="Area:" />
-            <ComboBox Height="30" Margin="0 0 0 10"/>
+            <ComboBox Height="30" Margin="0 0 0 10" SelectedValue="{Binding AreaId}"/>
 
             <!-- Priority -->
             <TextBlock Text="Priority:" />
-            <ComboBox Height="30" Margin="0 0 0 10"/>
+            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Source={x:Static viewmodels:PriorityValues.All}}"
+          SelectedItem="{Binding PriorityChoice}"/>
 
             <!-- Labels -->
             <TextBlock Text="Labels:" />
@@ -61,7 +63,7 @@
             <!-- Snapshot + Buttons -->
             <TextBlock Text="Snapshot:" />
             <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 0 0 10" CornerRadius="5">
-                <Image Height="100" Stretch="UniformToFill"/>
+                <Image Height="100" Stretch="UniformToFill"  Source="{Binding SnapshotImagePath}"/>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="📷" Width="35" Margin="2" Style="{StaticResource ButtonPrimary.Small}"/>
@@ -72,7 +74,8 @@
             
             <!-- Description -->
             <TextBlock Text="Description:" />
-            <TextBox Height="200" Margin="0 0 0 10" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+            <TextBox Height="200" Margin="0 0 0 10" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
        
         </StackPanel>
 
@@ -85,8 +88,8 @@
 
             <Button Content="Help" Width="70" Margin="4" Style="{StaticResource ButtonInfo}"/>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Save" Width="70" Margin="4" Style="{StaticResource ButtonPrimary}"/>
-                <Button Content="Cancel" Width="70" Margin="4" Style="{StaticResource ButtonDanger}"/>
+                <Button Content="Save" Width="70" Margin="4" Style="{StaticResource ButtonPrimary}"  Command="{Binding SaveCommand}"/>
+                <Button Content="Cancel" Width="70" Margin="4" Style="{StaticResource ButtonDanger}" Command="{Binding CancelCommand}"/>
             </StackPanel>
         </Grid>
     </Grid>
