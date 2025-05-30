@@ -12,9 +12,21 @@ namespace IssueManager.Constants
                 .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
 
-            panel.AddPushButton<LoadViewPointCommand>("Load Issues")
-                .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+            // زر Load Issues (مرتبط بـ Availability)
+            var loadBtnData = new PushButtonData(
+                "LoadIssuesButton",
+                "Load Issues",
+                typeof(LoadViewPointCommand).Assembly.Location,
+                typeof(LoadViewPointCommand).FullName
+            )
+            {
+                AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
+            };
+
+            var loadBtn = panel.AddItem(loadBtnData) as PushButton;
+
+            loadBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
+            loadBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
         }
     }
 }
