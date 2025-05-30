@@ -70,12 +70,6 @@
         <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="DTOs">
-        <HintPath>..\BIM Issue Manager\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
     <!-- Configuration -->
     <ItemGroup>
 	    <None Update="appsettings.json">
@@ -86,12 +80,12 @@
 	<!-- DTOs Library -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<Reference Include="DTOs">
-			<HintPath>D:\BIM Issue Manager\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
+			<HintPath>..\BIMIsuueManagerAPI\DTOs\bin\Debug\net8.0\DTOs.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
 		<Reference Include="DTOs">
-			<HintPath>D:\BIM Issue Manager\DTOs\bin\Debug\net48\DTOs.dll</HintPath>
+			<HintPath>..\BIMIsuueManagerAPI\DTOs\bin\Debug\net48\DTOs.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

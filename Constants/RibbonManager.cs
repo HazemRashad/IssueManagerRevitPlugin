@@ -30,6 +30,22 @@ namespace IssueManager.Constants
 
             loadBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
             loadBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+
+
+            var saveBtnData = new PushButtonData(
+                "SaveIssuesButton",
+                "Add Issue",
+                typeof(SaveViewPointCommand).Assembly.Location,
+                typeof(SaveViewPointCommand).FullName
+            )
+            {
+                AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
+            };
+
+            var saveBtn = panel.AddItem(saveBtnData) as PushButton;
+
+            saveBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
+            saveBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
         }
     }
 }

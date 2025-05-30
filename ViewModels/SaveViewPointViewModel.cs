@@ -1,83 +1,78 @@
 ﻿using DTOs.IssueLabel;
-using DTOs.Labels;
-using IssueManager.Srevices;
+using DTOs.RevitElements;
 using System.Collections.ObjectModel;
 
 namespace IssueManager.ViewModels
 {
-    [INotifyPropertyChanged]
-    public sealed partial class SaveViewPointViewModel
+    public partial class SaveViewPointViewModel : ObservableObject
     {
-        private readonly ApiService _apiService;
+        private readonly IssueApiService _issueService;
 
-        // === Form Fields ===
-        private string title;
-        private string? description;
-        private string? assignedToUserId;
-        private int areaId;
-        private Priority priority;
-        private DateTime? deadline = DateTime.Today;
-        private string? snapshotImagePath;
+        public SaveViewPointViewModel(IssueApiService issueService)
+        {
+            _issueService = issueService;
+        }
 
-        // === Project Context ===
-        public int ProjectId { get; set; } = 1;
-        public string CreatedByUserId { get; set; } = "current-user-id";
+        [ObservableProperty] private string title;
+        [ObservableProperty] private string description;
+        [ObservableProperty] private int areaId;
+        [ObservableProperty] private int projectId = 1;
+        [ObservableProperty] private string createdByUserId = "user-id";
+        [ObservableProperty] private string assignedToUserId;
+        [ObservableProperty] private Priority priorityChoice;
+        [ObservableProperty] private string? snapshotImagePath;
 
-        // === Labels ===
-        public ObservableCollection<LabelDto> AvailableLabels { get; set; } = new();
         public ObservableCollection<AssignLabelToIssueDto> SelectedLabels { get; set; } = new();
 
-        // === Comments ===
-        private string? commentContent;
+        [RelayCommand]
+        private async Task SaveAsync()
+        {
+            var dto = new CreateIssueDto
+            {
+                Title = Title,
+                Description = Description,
+                AreaId = AreaId,
+                ProjectId = ProjectId,
+                CreatedByUserId = CreatedByUserId,
+                AssignedToUserId = AssignedToUserId,
+                CreatedAt = DateTime.UtcNow,
+                Priority = PriorityChoice,
+                Labels = SelectedLabels.ToList(),
+                RevitElements = string.IsNullOrWhiteSpace(SnapshotImagePath)
+                    ? new List<RevitElementDto>()
+                    : new List<RevitElementDto>
+                    {
+                        new RevitElementDto
+                        {
+                            ElementId = "123",
+                            ElementUniqueId = "ABC-123",
+                            ViewpointCameraPosition = "0,0,0",
+                            SnapshotImagePath = SnapshotImagePath
+                        }
+                    }
+            };
 
-        // === Commands ===
-        //public IRelayCommand SaveCommand => new AsyncRelayCommand(SaveAsync);
-        //public IRelayCommand CancelCommand => new RelayCommand(() => CloseWindow());
+            var created = await _issueService.CreateAsync(dto);
+            if (created is not null)
+            {
+                MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                CloseWindow();
+            }
+            else
+            {
+                MessageBox.Show("Failed to create issue.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-        //private async Task SaveAsync()
-        //{
-        //    var dto = new CreateIssueDto
-        //    {
-        //        Title = title,
-        //        Description = description,
-        //        AssignedToUserId = assignedToUserId,
-        //        AreaId = areaId,
-        //        Priority = priority,
-        //        CreatedAt = DateTime.UtcNow,
-        //        CreatedByUserId = CreatedByUserId,
-        //        ProjectId = ProjectId,
-        //        LabelIds = SelectedLabels.Select(l => l.LabelId).ToList(),
-        //        RevitElements = string.IsNullOrWhiteSpace(snapshotImagePath)
-        //            ? new List<RevitElementDto>()
-        //            : new List<RevitElementDto>
-        //            {
-        //                new()
-        //                {
-        //                    ElementId = "123",
-        //                    ElementUniqueId = "ABC-123",
-        //                    SnapshotImagePath = snapshotImagePath,
-        //                    ViewpointCameraPosition = "0,0,0"
-        //                }
-        //            }
-        //    };
+        [RelayCommand]
+        private void Cancel() => CloseWindow();
 
-        //    bool result = await _apiService.CreateIssueAsync(dto);
-        //    if (result)
-        //    {
-        //        MessageBox.Show("Issue created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        //        //CloseWindow();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Failed to create issue.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
+        private void CloseWindow()
+        {
+            System.Windows.Application.Current.Windows
+                .OfType<Window>()
+                .FirstOrDefault(w => w.DataContext == this)?.Close();
+        }
 
-        //private void CloseWindow()
-        //{
-        //    Application.Current.Windows
-        //        .OfType<Window>()
-        //        .FirstOrDefault(w => w.DataContext == this)?.Close();
-        //}
     }
 }

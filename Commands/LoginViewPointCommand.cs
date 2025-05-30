@@ -8,7 +8,7 @@
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44374/") // أو حسب عنوان الـ API
+                BaseAddress = new Uri("https://localhost:44374/")
             };
             var loginservice = new LoginApiService(httpClient);
             var viewModel = new LoginViewModel(loginservice);
