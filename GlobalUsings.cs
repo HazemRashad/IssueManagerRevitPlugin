@@ -1,4 +1,4 @@
-﻿global using IssueManager.Models;
+﻿
 global using System.Net.Http;
 global using System.Net.Http.Json;
 global using IssueManager.Srevices;

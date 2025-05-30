@@ -6,6 +6,7 @@
     {
         public override void Execute()
         {
+
             var viewModel = new LoadViewPointViewModel();
             var view = new LoadViewPointView(viewModel);
             WindowRevitHandler.ShowWindow(view);

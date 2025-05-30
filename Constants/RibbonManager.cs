@@ -1,4 +1,6 @@
 ﻿using Autodesk.Revit.UI;
+using IssueManager.Revit;
+
 
 namespace IssueManager.Constants
 {
@@ -8,11 +10,12 @@ namespace IssueManager.Constants
         {
             var panel = app.CreatePanel("Commands", "IssueManager");
 
-            panel.AddPushButton<SaveViewPointCommand>("Create Issue")
+
+            panel.AddPushButton<LoginViewPointCommand>("Login")
                 .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
 
-            // زر Load Issues (مرتبط بـ Availability)
+
             var loadBtnData = new PushButtonData(
                 "LoadIssuesButton",
                 "Load Issues",
