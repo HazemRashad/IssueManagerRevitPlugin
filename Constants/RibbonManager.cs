@@ -15,7 +15,7 @@ namespace IssueManager.Constants
                 .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
                 .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
 
-
+            #region Load View Point Button
             var loadBtnData = new PushButtonData(
                 "LoadIssuesButton",
                 "Load Issues",
@@ -30,8 +30,10 @@ namespace IssueManager.Constants
 
             loadBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
             loadBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+            #endregion
 
 
+            #region Save View Point Button
             var saveBtnData = new PushButtonData(
                 "SaveIssuesButton",
                 "Add Issue",
@@ -46,6 +48,13 @@ namespace IssueManager.Constants
 
             saveBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
             saveBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+            #endregion
+
+            #region Revit Button
+            panel.AddPushButton<RevitAddinCommand>("Revit Logic")
+                .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
+                .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+            #endregion
         }
     }
 }

@@ -15,12 +15,12 @@ namespace IssueManager.ViewModels
 
         [ObservableProperty] private string title;
         [ObservableProperty] private string description;
-        [ObservableProperty] private int areaId=1;
+        [ObservableProperty] private int areaId = 1;
         [ObservableProperty] private int projectId = 1;
         [ObservableProperty] private string createdByUserId = "user-id";
-        [ObservableProperty] private string assignedToUserId="Hazem";
+        [ObservableProperty] private string assignedToUserId = "Hazem";
         [ObservableProperty] private Priority priorityChoice;
-        [ObservableProperty] private string? snapshotImagePath=null;
+        [ObservableProperty] private string? snapshotImagePath = null;
 
         public ObservableCollection<AssignLabelToIssueDto> SelectedLabels { get; set; } = new();
 
@@ -31,27 +31,28 @@ namespace IssueManager.ViewModels
             {
                 Title = "Test Issue Title",
                 Description = "This is a sample description for the issue.",
-                AreaId = 1, // ID منطقي من الـ API
+                AreaId = 1,
                 ProjectId = 1,
-                CreatedByUserId = "fixed-user-id-123",
-                AssignedToUserId = "Hazem-456", // يفضل ID حقيقي للمستخدم
+                CreatedByUserId = "3fc9637c-ff28-4d3d-8c7e-342c1dbb8581",
+                AssignedToUserId = "5b79dfff-2819-4fb3-b388-da86ac4422d7",
                 CreatedAt = DateTime.UtcNow,
-                Priority = Priority.Critical, // أو Priority.Normal أو أي قيمة من enum
+                Priority = Priority.Critical,
                 Labels = new List<AssignLabelToIssueDto>
-        {
-            new AssignLabelToIssueDto { LabelId = 1 },
-            new AssignLabelToIssueDto { LabelId = 2 }
-        },
+                {
+                    new AssignLabelToIssueDto { LabelId = 1 },
+                    new AssignLabelToIssueDto { LabelId = 2 }
+                },
                 RevitElements = new List<RevitElementDto>
-        {
-            new RevitElementDto
-            {
-                ElementId = "123",
-                ElementUniqueId = "ABC-123",
-                ViewpointCameraPosition = "0,0,0",
-                SnapshotImagePath = @"C:\Temp\snapshot.png" // حط أي path مؤقت
-            }
-        }
+                {
+                new RevitElementDto
+                    {
+                    ElementId = "123",
+                    ElementUniqueId = "ABC-123",
+                    ViewpointCameraPosition = "0,0,0",
+                    SnapshotImagePath = @"C:\Temp\snapshot.png",
+                    
+                    }
+                }
             };
 
             var created = await _issueService.CreateAsync(dto);

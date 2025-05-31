@@ -70,6 +70,10 @@
         <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+
     <!-- Configuration -->
     <ItemGroup>
 	    <None Update="appsettings.json">
