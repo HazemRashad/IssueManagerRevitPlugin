@@ -1,10 +1,11 @@
-﻿using DTOs.IssueLabel;
-using DTOs.RevitElements;
-using DTOs.Areas;
-using DTOs.Users;
+﻿using DTOs.Areas;
+using DTOs.IssueLabel;
 using DTOs.Labels;
-using System.Collections.ObjectModel;
+using DTOs.RevitElements;
+using DTOs.Users;
 using IssueManager.Revit;
+using Nice3point.Revit.Toolkit.External.Handlers;
+using System.Collections.ObjectModel;
 
 namespace IssueManager.ViewModels
 {
@@ -97,12 +98,31 @@ namespace IssueManager.ViewModels
             }
         }
 
+        private readonly AsyncEventHandler _asyncEventHandler = new();
 
         [RelayCommand]
         private async Task SectionBoxAsync()
         {
-            RevitIssue.IsolateSelectionInSectionBoxAsync();
+            await _asyncEventHandler.RaiseAsync(_ =>
+            {
+                RevitIssue.IsolateSelectionInSectionBox();
+            });
+        }
 
+        [RelayCommand]
+        private void ExportSnapshot()
+        {
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string snapshotPath = RevitIssue.ExportSnapshot(outputPath);
+
+            if (!string.IsNullOrWhiteSpace(snapshotPath))
+            {
+                MessageBox.Show($"Snapshot saved to: {snapshotPath}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to export snapshot.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ResetForm()

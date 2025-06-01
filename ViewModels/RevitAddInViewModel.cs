@@ -136,8 +136,5 @@ namespace IssueManager.ViewModels
                 MessageBox.Show("Revit", "Isolated view created!");
             });
         }
-
-
-
     }
 }

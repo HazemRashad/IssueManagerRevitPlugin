@@ -17,7 +17,7 @@ namespace IssueManager.Views
     /// <summary>
     /// Interaction logic for RevitAddinView.xaml
     /// </summary>
-    public partial class RevitAddinView : Window
+    public partial class RevitAddinView : HandyControl.Controls.Window
     {
         public RevitAddinView( RevitAddInViewModel revitAddInViewModel)
         {
