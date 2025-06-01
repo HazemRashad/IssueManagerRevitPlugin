@@ -31,10 +31,11 @@
                            Margin="0 0 0 20" HorizontalAlignment="Center"/>
 
                 <TextBlock Text="Email" Margin="0 0 0 4"/>
-                <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
+                <hc:TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
+                         hc:InfoElement.Placeholder="Enter your Email"/>
 
                 <TextBlock Text="Password" Margin="0 4 0 4"/>
-                <hc:PasswordBox hc:InfoElement.Placeholder="Password"
+                <hc:PasswordBox hc:InfoElement.Placeholder="Enter your Password"
                                 x:Name="PasswordBox"/>
 
                 <Button Content="Log In"
