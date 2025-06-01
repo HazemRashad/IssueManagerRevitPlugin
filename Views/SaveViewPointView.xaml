@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:IssueManager.Views"
         xmlns:viewmodels="clr-namespace:IssueManager.ViewModels"
         xmlns:hc="https://handyorg.github.io/handycontrol"
+       
         Title="Add Issue" Height="470" Width="500"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
@@ -36,11 +37,18 @@
 
             <!-- Assigned to -->
             <TextBlock Text="Assigned to:" />
-            <ComboBox Height="30" Margin="0 0 0 10" SelectedItem="{Binding AssignedToUserId}"/>
+            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Users}"
+                DisplayMemberPath="UserName"
+                SelectedValuePath="Id"
+                SelectedValue="{Binding AssignedToUserId, Mode=TwoWay}"/>
 
             <!-- Area -->
             <TextBlock Text="Area:" />
-            <ComboBox Height="30" Margin="0 0 0 10" SelectedValue="{Binding AreaId}"/>
+            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Areas}"
+                DisplayMemberPath="AreaName"
+                SelectedValuePath="AreaId"
+                SelectedValue="{Binding AreaId, Mode=TwoWay}"
+                     />
 
             <!-- Priority -->
             <TextBlock Text="Priority:" />
@@ -49,11 +57,13 @@
 
             <!-- Labels -->
             <TextBlock Text="Labels:" />
-            <ListBox Height="128" Margin="0 0 0 10">
-                <ListBoxItem Content="Arch"/>
-                <ListBoxItem Content="MEP"/>
-                <ListBoxItem Content="Civil"/>
-            </ListBox>
+            <ComboBox ItemsSource="{Binding Labels}"
+              DisplayMemberPath="LabelName"
+              SelectedValuePath="LabelId"
+              SelectedValue="{Binding SelectedLabelId, Mode=TwoWay}"
+             Margin="0 0 0 10" 
+          
+          />
 
         </StackPanel>
 

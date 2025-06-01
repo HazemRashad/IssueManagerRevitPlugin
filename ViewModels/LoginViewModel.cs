@@ -52,12 +52,20 @@ namespace IssueManager.ViewModels
                 if (response != null)
                 {
 
-                    MessageBox.Show("Login successful!");
-                    CloseAction.Invoke();
+                    AppSession.Token = body;
+
+                    await AppSession.LoadUserIdFromTokenAsync(new HttpClient
+                    {
+                        BaseAddress = new Uri("https://localhost:44374/")
+                    });
+
 
                     AppSession.IsUserLoggedIn = true;
-                    AppSession.Token = body;
                     MessageBox.Show($"{body}");
+
+                    MessageBox.Show($"UserId: {AppSession.UserId}");
+                    MessageBox.Show("Login successful!");
+                    CloseAction.Invoke();
 
                 }
 

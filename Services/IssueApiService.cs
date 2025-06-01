@@ -2,8 +2,10 @@
 {
     public class IssueApiService : ApiService
     {
+        protected readonly HttpClient _client;
         public IssueApiService(HttpClient client) : base(client)
         {
+            _client = client;
         }
 
         public Task<List<IssueDto>?> GetAllAsync()
@@ -12,8 +14,28 @@
         public Task<IssueDto?> GetByIdAsync(int id)
             => GetAsync<IssueDto>(Issues.GetById(id));
 
-        public Task<IssueDto?> CreateAsync(CreateIssueDto dto)
-            => PostAsync<CreateIssueDto, IssueDto>(Issues.Create(), dto);
+        public async Task<IssueDto?> CreateAsync(CreateIssueDto dto)
+        {
+            try
+            {
+                var response = await _client.PostAsJsonAsync("api/issues/create", dto);
+                string body = await response.Content.ReadAsStringAsync();
+
+                MessageBox.Show($"Status: {response.StatusCode}\nBody:\n{body}", "DEBUG");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<IssueDto>();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"EX: {ex.Message}");
+                return null;
+            }
+        }
 
         public Task<HttpResponseMessage> UpdateAsync(int id, UpdateIssueDto dto)
             => PutAsync(Issues.Update(id), dto);

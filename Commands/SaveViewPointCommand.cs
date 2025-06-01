@@ -17,7 +17,8 @@ namespace IssueManager.Commands
                 BaseAddress = new Uri("https://localhost:44374/")
             };
             var issueservice = new IssueApiService(httpClient);
-            var viewModel = new SaveViewPointViewModel(issueservice);
+            var lookupService = new LookupApiService(httpClient);
+            var viewModel = new SaveViewPointViewModel(issueservice,lookupService);
             var view = new SaveViewPointView(viewModel);
             WindowRevitHandler.ShowWindow(view);
         }
