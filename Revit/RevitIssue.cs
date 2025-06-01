@@ -1,4 +1,6 @@
-﻿namespace IssueManager.Revit
+﻿using Nice3point.Revit.Toolkit.External.Handlers;
+
+namespace IssueManager.Revit
 {
     public static class RevitIssue
     {
@@ -54,49 +56,51 @@
                 .ToList();
         }
 
-        public static void IsolateSelectionInSectionBoxView()
+        private static readonly AsyncEventHandler _asyncEventHandler = new();
+
+        
+        public static async Task IsolateSelectionInSectionBoxAsync()
         {
-            var uidoc = Context.ActiveUiDocument;
-            var doc = uidoc.Document;
-            var selectedIds = uidoc.Selection.GetElementIds();
-
-            if (!selectedIds.Any())
+            await _asyncEventHandler.RaiseAsync(app =>
             {
-                MessageBox.Show("Revit", "Please select elements first.");
-                return;
-            }
+                var uidoc = Context.ActiveUiDocument;
+                var doc = uidoc.Document;
+                var selectedIds = uidoc.Selection.GetElementIds();
 
-            // Get combined bounding box
-            BoundingBoxXYZ? combinedBox = null;
-            foreach (var id in selectedIds)
-            {
-                var element = doc.GetElement(id);
-                var box = element?.get_BoundingBox(null);
-                if (box == null) continue;
+                if (!selectedIds.Any())
+                {
+                    MessageBox.Show("Revit", "Please select elements first.");
+                    return;
+                }
 
-                combinedBox ??= new BoundingBoxXYZ { Min = box.Min, Max = box.Max };
+                // === Bounding Box Calculation ===
+                BoundingBoxXYZ? combinedBox = null;
+                foreach (var id in selectedIds)
+                {
+                    var element = doc.GetElement(id);
+                    var box = element?.get_BoundingBox(null);
+                    if (box == null) continue;
 
-                combinedBox.Min = new XYZ(
-                    Math.Min(combinedBox.Min.X, box.Min.X),
-                    Math.Min(combinedBox.Min.Y, box.Min.Y),
-                    Math.Min(combinedBox.Min.Z, box.Min.Z));
+                    combinedBox ??= new BoundingBoxXYZ { Min = box.Min, Max = box.Max };
 
-                combinedBox.Max = new XYZ(
-                    Math.Max(combinedBox.Max.X, box.Max.X),
-                    Math.Max(combinedBox.Max.Y, box.Max.Y),
-                    Math.Max(combinedBox.Max.Z, box.Max.Z));
-            }
+                    combinedBox.Min = new XYZ(
+                        Math.Min(combinedBox.Min.X, box.Min.X),
+                        Math.Min(combinedBox.Min.Y, box.Min.Y),
+                        Math.Min(combinedBox.Min.Z, box.Min.Z));
 
-            if (combinedBox == null)
-            {
-                MessageBox.Show("Revit", "Could not compute bounding box.");
-                return;
-            }
+                    combinedBox.Max = new XYZ(
+                        Math.Max(combinedBox.Max.X, box.Max.X),
+                        Math.Max(combinedBox.Max.Y, box.Max.Y),
+                        Math.Max(combinedBox.Max.Z, box.Max.Z));
+                }
 
-            using (Transaction tx = new Transaction(doc, "Create Isolated 3D View"))
-            {
-                tx.Start();
+                if (combinedBox == null)
+                {
+                    MessageBox.Show("Revit", "Could not compute bounding box.");
+                    return;
+                }
 
+                // === Create Isolated 3D View ===
                 var viewType = new FilteredElementCollector(doc)
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
@@ -105,23 +109,44 @@
                 if (viewType is null)
                 {
                     MessageBox.Show("Revit", "Cannot find 3D view type.");
-                    tx.RollBack();
                     return;
                 }
 
-                var view3D = View3D.CreateIsometric(doc, viewType.Id);
-                view3D.Name = $"IsolatedView_{DateTime.Now:HHmmss}";
-                view3D.SetSectionBox(combinedBox);
-                view3D.CropBoxActive = true;
-                view3D.CropBoxVisible = false;
+                View3D view3D;
+                using (Transaction tx = new Transaction(doc, "Create Isolated 3D View"))
+                {
+                    tx.Start();
 
-                view3D.IsolateElementsTemporary(selectedIds.ToList());
+                    view3D = View3D.CreateIsometric(doc, viewType.Id);
+                    view3D.Name = $"IsolatedView_{DateTime.Now:HHmmss}";
+                    view3D.SetSectionBox(combinedBox);
+                    view3D.CropBoxActive = true;
+                    view3D.CropBoxVisible = false;
+                    view3D.IsolateElementsTemporary(selectedIds.ToList());
 
-                tx.Commit();
+                    // === Zoom & Orientation Logic ===
+                    var center = (combinedBox.Min + combinedBox.Max) / 2;
+
+                    //////////////////////////////
+                    //var size = (combinedBox.Max - combinedBox.Min).GetLength();
+                    //var offset = size * 0.3; 
+                    var eyePosition = center + new XYZ(0.5, -0.5, 0.5);
+
+                    var forwardDirection = (center - eyePosition).Normalize();
+
+
+                    var right = forwardDirection.CrossProduct(XYZ.BasisZ).Normalize();
+                    var upDirection = right.CrossProduct(forwardDirection).Normalize();
+
+                    view3D.SetOrientation(new ViewOrientation3D(eyePosition, upDirection, forwardDirection));
+
+                    tx.Commit();
+                }
 
                 uidoc.ActiveView = view3D;
-                MessageBox.Show("Revit","Isolated view created!");
-            }
+
+                MessageBox.Show("Revit", "Isolated view created!");
+            });
         }
     }
 }

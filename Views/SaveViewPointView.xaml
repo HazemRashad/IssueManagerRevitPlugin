@@ -76,8 +76,8 @@
                 <Image Height="100" Stretch="UniformToFill"  Source="{Binding SnapshotImagePath}"/>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="📷" Width="35" Margin="2" Style="{StaticResource ButtonPrimary.Small}"/>
-                <Button Content="🔄" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}"/>
+                <Button Content="📦" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}" ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>
+                <Button Content="📷" Width="35" Margin="2" Style="{StaticResource ButtonPrimary.Small}" ToolTip="Capture Snapshot"/>
                 <Button Content="🖍️" Width="35" Margin="2" Style="{StaticResource ButtonSuccess.Small}"/>
                 <Button Content="❌" Width="35" Margin="2" Style="{StaticResource ButtonDanger.Small}"/>
             </StackPanel>

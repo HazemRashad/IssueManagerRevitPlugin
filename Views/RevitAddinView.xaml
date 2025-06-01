@@ -22,7 +22,7 @@
                Command="{Binding ShowSelectedElementIdsCommand}" />
             <Button Content="📦 Isolate Selection in View"
                Height="40"
-               Command="{Binding IsolateSelectionInSectionBoxCommand}" />
+               Command="{Binding IsolateSelectionInSectionBoxCommand}" Click="Button_Click" />
 
 
         </StackPanel>

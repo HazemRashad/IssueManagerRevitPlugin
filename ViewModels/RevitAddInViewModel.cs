@@ -104,7 +104,6 @@ namespace IssueManager.ViewModels
                 using (Transaction tx = new Transaction(doc, "Create Isolated 3D View"))
                 {
                     tx.Start();
-                    // Create a new 3D view
 
                     view3D = View3D.CreateIsometric(doc, viewType.Id);
                     view3D.Name = $"IsolatedView_{DateTime.Now:HHmmss}";
@@ -113,13 +112,31 @@ namespace IssueManager.ViewModels
                     view3D.CropBoxVisible = false;
                     view3D.IsolateElementsTemporary(selectedIds.ToList());
 
+                    // === Zoom & Orientation Logic ===
+                    var center = (combinedBox.Min + combinedBox.Max) / 2;
+
+                    //////////////////////////////
+                    //var size = (combinedBox.Max - combinedBox.Min).GetLength();
+                    //var offset = size * 0.3; 
+                    var eyePosition = center + new XYZ(0.5, -0.5, 0.5);
+
+                    var forwardDirection = (center - eyePosition).Normalize();
+
+                    
+                    var right = forwardDirection.CrossProduct(XYZ.BasisZ).Normalize();
+                    var upDirection = right.CrossProduct(forwardDirection).Normalize();
+
+                    view3D.SetOrientation(new ViewOrientation3D(eyePosition, upDirection, forwardDirection));
+
                     tx.Commit();
                 }
+
                 uidoc.ActiveView = view3D;
 
                 MessageBox.Show("Revit", "Isolated view created!");
             });
         }
+
 
 
     }

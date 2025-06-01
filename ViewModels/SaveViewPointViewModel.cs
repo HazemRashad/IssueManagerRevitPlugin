@@ -4,6 +4,7 @@ using DTOs.Areas;
 using DTOs.Users;
 using DTOs.Labels;
 using System.Collections.ObjectModel;
+using IssueManager.Revit;
 
 namespace IssueManager.ViewModels
 {
@@ -94,6 +95,14 @@ namespace IssueManager.ViewModels
             {
                 MessageBox.Show("Failed to create issue.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+
+        [RelayCommand]
+        private async Task SectionBoxAsync()
+        {
+            RevitIssue.IsolateSelectionInSectionBoxAsync();
+
         }
 
         private void ResetForm()
