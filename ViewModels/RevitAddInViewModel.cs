@@ -88,11 +88,23 @@ namespace IssueManager.ViewModels
                     return;
                 }
 
+
+                var uiView = new FilteredElementCollector(doc)
+                    .OfClass(typeof(View)).Cast<View>()
+                    .Where(v => v.Id == uidoc.ActiveView.Id)
+                    .Select(v => uidoc.GetOpenUIViews().FirstOrDefault(uiv => uiv.ViewId == v.Id))
+                    .FirstOrDefault();
+
+                if (uiView is not null)
+                {
+                    uiView.ZoomAndCenterRectangle(combinedBox.Min, combinedBox.Max);
+                }
+
                 // === Create Isolated 3D View ===
                 var viewType = new FilteredElementCollector(doc)
-                    .OfClass(typeof(ViewFamilyType))
-                    .Cast<ViewFamilyType>()
-                    .FirstOrDefault(v => v.ViewFamily == ViewFamily.ThreeDimensional);
+                .OfClass(typeof(ViewFamilyType))
+                .Cast<ViewFamilyType>()
+                .FirstOrDefault(v => v.ViewFamily == ViewFamily.ThreeDimensional);
 
                 if (viewType is null)
                 {
@@ -122,7 +134,7 @@ namespace IssueManager.ViewModels
 
                     var forwardDirection = (center - eyePosition).Normalize();
 
-                    
+
                     var right = forwardDirection.CrossProduct(XYZ.BasisZ).Normalize();
                     var upDirection = right.CrossProduct(forwardDirection).Normalize();
 
