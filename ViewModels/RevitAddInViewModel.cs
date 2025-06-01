@@ -53,8 +53,15 @@ namespace IssueManager.ViewModels
             {
                 var uidoc = Context.ActiveUiDocument;
                 var doc = uidoc.Document;
-                var selectedIds = uidoc.Selection.GetElementIds();
+                var view = uidoc.ActiveView;
 
+                if (view is not View3D view3D || view.ViewType != ViewType.ThreeD || view3D.IsTemplate)
+                {
+                    MessageBox.Show("Revit", "Please activate a 3D graphical view first.");
+                    return;
+                }
+
+                var selectedIds = uidoc.Selection.GetElementIds();
                 if (!selectedIds.Any())
                 {
                     MessageBox.Show("Revit", "Please select elements first.");
@@ -66,7 +73,7 @@ namespace IssueManager.ViewModels
                 foreach (var id in selectedIds)
                 {
                     var element = doc.GetElement(id);
-                    var box = element?.get_BoundingBox(null);
+                    var box = element?.get_BoundingBox(view);
                     if (box == null) continue;
 
                     combinedBox ??= new BoundingBoxXYZ { Min = box.Min, Max = box.Max };
@@ -100,52 +107,19 @@ namespace IssueManager.ViewModels
                     uiView.ZoomAndCenterRectangle(combinedBox.Min, combinedBox.Max);
                 }
 
-                // === Create Isolated 3D View ===
-                var viewType = new FilteredElementCollector(doc)
-                .OfClass(typeof(ViewFamilyType))
-                .Cast<ViewFamilyType>()
-                .FirstOrDefault(v => v.ViewFamily == ViewFamily.ThreeDimensional);
-
-                if (viewType is null)
-                {
-                    MessageBox.Show("Revit", "Cannot find 3D view type.");
-                    return;
-                }
-
-                View3D view3D;
-                using (Transaction tx = new Transaction(doc, "Create Isolated 3D View"))
+                using (var tx = new Transaction(doc, "Isolate in Section Box"))
                 {
                     tx.Start();
 
-                    view3D = View3D.CreateIsometric(doc, viewType.Id);
-                    view3D.Name = $"IsolatedView_{DateTime.Now:HHmmss}";
                     view3D.SetSectionBox(combinedBox);
                     view3D.CropBoxActive = true;
-                    view3D.CropBoxVisible = false;
+                    view3D.CropBoxVisible = true;
                     view3D.IsolateElementsTemporary(selectedIds.ToList());
-
-                    // === Zoom & Orientation Logic ===
-                    var center = (combinedBox.Min + combinedBox.Max) / 2;
-
-                    //////////////////////////////
-                    //var size = (combinedBox.Max - combinedBox.Min).GetLength();
-                    //var offset = size * 0.3; 
-                    var eyePosition = center + new XYZ(0.5, -0.5, 0.5);
-
-                    var forwardDirection = (center - eyePosition).Normalize();
-
-
-                    var right = forwardDirection.CrossProduct(XYZ.BasisZ).Normalize();
-                    var upDirection = right.CrossProduct(forwardDirection).Normalize();
-
-                    view3D.SetOrientation(new ViewOrientation3D(eyePosition, upDirection, forwardDirection));
 
                     tx.Commit();
                 }
 
-                uidoc.ActiveView = view3D;
-
-                MessageBox.Show("Revit", "Isolated view created!");
+                MessageBox.Show("Revit", "Isolated elements in section box in current view.");
             });
         }
     }
