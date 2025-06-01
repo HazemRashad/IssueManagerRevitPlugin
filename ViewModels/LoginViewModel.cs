@@ -1,5 +1,9 @@
 ﻿using DTOs.Login;
+using HandyControl.Controls;
+using System.Windows.Controls;
 using Xunit;
+using MessageBox = System.Windows.MessageBox;
+using PasswordBox = HandyControl.Controls.PasswordBox;
 
 namespace IssueManager.ViewModels
 {
@@ -30,9 +34,9 @@ namespace IssueManager.ViewModels
         
 
         [RelayCommand]
-        private async Task LoginAsync()
+        private async Task LoginAsync( PasswordBox passwordbox)
         {
-
+            
             IsLoading = true;
             ErrorMessage = null;
 
@@ -41,7 +45,7 @@ namespace IssueManager.ViewModels
                 var dto = new LoginRequestDto
                 {
                     Email = Email,
-                    Password = Password
+                    Password = passwordbox.Password
                 };
 
                 var response = await _loginService.LoginAsync(dto);
