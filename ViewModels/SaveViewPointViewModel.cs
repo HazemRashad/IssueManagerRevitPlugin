@@ -33,6 +33,7 @@ namespace IssueManager.ViewModels
         public ObservableCollection<AreaDto> Areas { get; set; } = new();
         public ObservableCollection<UserDto> Users { get; set; } = new();
         public ObservableCollection<LabelDto> Labels { get; set; } = new();
+        public static Action CloseAction { get; internal set; }
 
         private async void LoadLookupsAsync()
         {
@@ -111,9 +112,7 @@ namespace IssueManager.ViewModels
 
         private void CloseWindow()
         {
-            System.Windows.Application.Current.Windows
-                .OfType<Window>()
-                .FirstOrDefault(w => w.DataContext == this)?.Close();
+            CloseAction?.Invoke();
         }
     }
 

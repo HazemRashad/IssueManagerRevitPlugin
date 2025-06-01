@@ -11,6 +11,8 @@ namespace IssueManager.Views
         {
             DataContext = viewModel;
             InitializeComponent();
+            SaveViewPointViewModel.CloseAction = this.Close;
+            
         }
     }
 }
