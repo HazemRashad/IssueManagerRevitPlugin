@@ -62,14 +62,14 @@
 
             if (view is not View3D view3D || view.ViewType != ViewType.ThreeD || view3D.IsTemplate)
             {
-                MessageBox.Show("Revit", "Please activate a 3D graphical view first.");
+                MessageBox.Show("Please activate a 3D graphical view first.", "Revit");
                 return;
             }
 
             var selectedIds = uidoc.Selection.GetElementIds();
             if (!selectedIds.Any())
             {
-                MessageBox.Show("Revit", "Please select elements first.");
+                MessageBox.Show("Please select elements first.", "Revit");
                 return;
             }
 
@@ -96,7 +96,7 @@
 
             if (combinedBox == null)
             {
-                MessageBox.Show("Revit", "Could not compute bounding box.");
+                MessageBox.Show("Could not compute bounding box.", "Revit");
                 return;
             }
 
@@ -109,7 +109,18 @@
 
             if (uiView is not null)
             {
-                uiView.ZoomAndCenterRectangle(combinedBox.Min, combinedBox.Max);
+                XYZ size = combinedBox.Max - combinedBox.Min;
+
+                double offsetFactor = 0.1;
+                XYZ offset = new XYZ(
+                    size.X * offsetFactor,
+                    size.Y * offsetFactor,
+                    size.Z * offsetFactor);
+
+                XYZ zoomMin = combinedBox.Min - offset;
+                XYZ zoomMax = combinedBox.Max + offset;
+
+                uiView.ZoomAndCenterRectangle(zoomMin, zoomMax);
             }
 
             using (var tx = new Transaction(doc, "Isolate in Section Box"))
@@ -124,7 +135,7 @@
                 tx.Commit();
             }
 
-            MessageBox.Show("Revit", "Isolated elements in section box in current view.");
+            MessageBox.Show("Isolated elements in section box in current view.", "Revit");
         }
 
 

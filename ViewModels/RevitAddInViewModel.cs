@@ -104,8 +104,23 @@ namespace IssueManager.ViewModels
 
                 if (uiView is not null)
                 {
-                    uiView.ZoomAndCenterRectangle(combinedBox.Min, combinedBox.Max);
+                    // Calculate size of bounding box
+                    XYZ size = combinedBox.Max - combinedBox.Min;
+
+                    // Define a small percentage offset (e.g., 10% of the box size)
+                    double offsetFactor = 0.1;
+                    XYZ offset = new XYZ(
+                        size.X * offsetFactor,
+                        size.Y * offsetFactor,
+                        size.Z * offsetFactor);
+
+                    // Apply offset to Min and Max to give some padding around the box
+                    XYZ zoomMin = combinedBox.Min - offset;
+                    XYZ zoomMax = combinedBox.Max + offset;
+
+                    uiView.ZoomAndCenterRectangle(zoomMin, zoomMax);
                 }
+
 
                 using (var tx = new Transaction(doc, "Isolate in Section Box"))
                 {
