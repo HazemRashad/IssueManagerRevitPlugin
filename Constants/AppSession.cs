@@ -15,7 +15,6 @@ namespace IssueManager.Constants
         public static string? UserId { get; set; } = null;
         public static int? ProjectId { get; set; } = null;
 
-
         public static string? GetEmailFromToken()
         {
             if (string.IsNullOrWhiteSpace(Token)) return null;
@@ -35,10 +34,6 @@ namespace IssueManager.Constants
                 : null;
         }
 
-
-
-
-
         public static async Task<bool> LoadUserIdFromTokenAsync(HttpClient client)
         {
             string? email = GetEmailFromToken();
@@ -51,7 +46,6 @@ namespace IssueManager.Constants
 
                 UserId = await response.Content.ReadAsStringAsync();
 
-                // Get full user info to extract ProjectId
                 var projectresponse = await client.GetAsync($"api/ProjectTeamMembers/user/{UserId}");
                 if (projectresponse.IsSuccessStatusCode)
                 {
@@ -65,8 +59,5 @@ namespace IssueManager.Constants
                 return false;
             }
         }
-
-
-
     }
 }
