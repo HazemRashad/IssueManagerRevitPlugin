@@ -164,4 +164,7 @@ namespace IssueManager.ViewModels
     }
 
     public static class PriorityValues
-  
+    {
+        public static readonly List<Priority> All = Enum.GetValues(typeof(Priority)).Cast<Priority>().ToList();
+    }
+}
