@@ -10,7 +10,7 @@
            mc:Ignorable="d"
            d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
            ResizeMode="NoResize" Title="Load Issue"
-           Height="700" Width="550">
+           Height="700" Width="550" WindowStartupLocation="CenterScreen">
 
     <hc:Window.Resources>
         <ResourceDictionary>

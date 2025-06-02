@@ -65,9 +65,11 @@ namespace IssueManager.ViewModels
 
 
                     AppSession.IsUserLoggedIn = true;
-                    MessageBox.Show($"{body}");
+                    // MessageBox.Show($"{body}");
 
-                    MessageBox.Show($"UserId: {AppSession.UserId}");
+                    RibbonManager.OnLoginSuccess();
+
+                    //MessageBox.Show($"UserId: {AppSession.UserId}");
                     MessageBox.Show("Login successful!");
                     CloseAction.Invoke();
 

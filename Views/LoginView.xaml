@@ -47,11 +47,11 @@
                         Command="{Binding LoginCommand}"
                         CommandParameter="{Binding ElementName=PasswordBox, Path=.}"/>
 
-                <TextBlock HorizontalAlignment="Center" Margin="0 10 0 0">
+                <!--<TextBlock HorizontalAlignment="Center" Margin="0 10 0 0">
                     <Hyperlink>
                         Forgot password?
                     </Hyperlink>
-                </TextBlock>
+                </TextBlock>-->
 
             </StackPanel>
         </Border>

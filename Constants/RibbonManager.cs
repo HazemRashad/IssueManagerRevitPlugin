@@ -1,72 +1,49 @@
 ﻿using Autodesk.Revit.UI;
 using IssueManager.Revit;
 
-
-namespace IssueManager.Constants
+public static class RibbonManager
 {
-    public static class RibbonManager
+    private static PushButton _loginButton;
+    private static PushButton _saveButton;
+    private static PushButton _loadButton;
+
+    public static void CreateRibbon(this UIControlledApplication app)
     {
-        public static void CreateRibbon(this UIControlledApplication app)
+        var panel = app.CreatePanel("Commands", "IssueManager");
+
+        // ⬅️ Login
+        _loginButton = panel.AddPushButton<LoginViewPointCommand>("Login");
+        _loginButton.SetLargeImage("/IssueManager;component/Resources/Icons/login.png");
+
+        // ⬅️ Save
+        var saveBtnData = new PushButtonData("SaveIssuesButton", "Add Issue",
+            typeof(SaveViewPointCommand).Assembly.Location,
+            typeof(SaveViewPointCommand).FullName)
         {
-            var panel = app.CreatePanel("Commands", "IssueManager");
+            AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
+        };
 
+        _saveButton = panel.AddItem(saveBtnData) as PushButton;
+        _saveButton.Enabled = false;
+        _saveButton.SetLargeImage("/IssueManager;component/Resources/Icons/SaveIssue.png");
 
-            panel.AddPushButton<LoginViewPointCommand>("Login")
-                .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
+        // ⬅️ Load
+        var loadBtnData = new PushButtonData("LoadIssuesButton", "Load Issues",
+            typeof(LoadViewPointCommand).Assembly.Location,
+            typeof(LoadViewPointCommand).FullName)
+        {
+            AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
+        };
 
-            #region Load View Point Button
-            var loadBtnData = new PushButtonData(
-                "LoadIssuesButton",
-                "Load Issues",
-                typeof(LoadViewPointCommand).Assembly.Location,
-                typeof(LoadViewPointCommand).FullName
-            )
-            {
-                AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
-            };
+        _loadButton = panel.AddItem(loadBtnData) as PushButton;
+        _loadButton.Enabled = false;
+        _loadButton.SetLargeImage("/IssueManager;component/Resources/Icons/Load.png");
+    }
 
-            var loadBtn = panel.AddItem(loadBtnData) as PushButton;
-
-            loadBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
-            loadBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
-            #endregion
-
-
-            #region Save View Point Button
-            var saveBtnData = new PushButtonData(
-                "SaveIssuesButton",
-                "Add Issue",
-                typeof(SaveViewPointCommand).Assembly.Location,
-                typeof(SaveViewPointCommand).FullName
-            )
-            {
-                AvailabilityClassName = typeof(RequiresLoginAvailability).FullName
-            };
-
-            var saveBtn = panel.AddItem(saveBtnData) as PushButton;
-
-            saveBtn?.SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
-            saveBtn?.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
-            #endregion
-
-
-            #region To be deleted For Debug Only
-
-            //panel.AddPushButton<LoadViewPointCommand>("Load Issues")
-            //    .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
-            //    .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
-
-            //panel.AddPushButton<SaveViewPointCommand>("Save Issues")
-            //    .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
-            //    .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
-
-            //panel.AddPushButton<RevitAddinCommand>("Revit Logic")
-            //    .SetImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png")
-            //    .SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon32.png");
-
-            #endregion
-
-        }
+    public static void OnLoginSuccess()
+    {
+        _loginButton.Enabled = false;
+        _saveButton.Enabled = true;
+        _loadButton.Enabled = true;
     }
 }
