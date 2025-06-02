@@ -1,5 +1,6 @@
 ﻿using DTOs.Areas;
 using DTOs.Labels;
+using DTOs.Projects;
 using DTOs.Users;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace IssueManager.Constants
 
         public Task<List<LabelDto>> GetLabelsByProjectIdAsync(int projectId)
             => GetAsync<List<LabelDto>>($"api/labels/project/{projectId}/labels");
+        public Task<List<ProjectDto>> GetProjectsByUserIdAsync(string userId)
+    => GetAsync<List<ProjectDto>>($"api/projects/user/{userId}");
     }
 
 }
