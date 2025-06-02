@@ -6,16 +6,75 @@
            xmlns:local="clr-namespace:IssueManager.Views"
            xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:viewModels="clr-namespace:IssueManager.ViewModels"
+           xmlns:helpers="clr-namespace:IssueManager.Resources"
            mc:Ignorable="d"
            d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
            ResizeMode="NoResize" Title="Load Issue"
-           Height="700" Width="500">
+           Height="700" Width="550">
 
     <hc:Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/IssueManager;component/Resources/HandyControlResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="CardButtonStyle" TargetType="Button">
+                <Setter Property="Width" Value="250"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#DDD"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="CardBorder"
+                                CornerRadius="6"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Margin="5"
+                                Effect="{StaticResource EffectShadow2}">
+
+                                <StackPanel>
+                                    <Image Height="160"
+                                        Stretch="UniformToFill"
+                                        Margin="0,0,0,6"
+                                        Source="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                 Path=(helpers:CardButtonHelper.ImageSource)}"/>
+
+                                    <StackPanel Margin="10,0,10,10">
+                                        <TextBlock Text="{TemplateBinding Content}" 
+                                                    FontWeight="Bold"
+                                                    FontSize="16"
+                                                    TextTrimming="CharacterEllipsis"/>
+
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                      Path=(helpers:CardButtonHelper.Subtitle)}"
+                                                    FontSize="12"
+                                                    Foreground="Gray"
+                                                    Margin="0,4,0,0"
+                                                    TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#409EFF"/>
+                                    <Setter TargetName="CardBorder" Property="BorderThickness" Value="2"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="CardBorder" Property="Background" Value="#E6F0FF"/>
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#007ACC"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="CardBorder" Property="BorderBrush" Value="#66AFE9"/>
+                                    <Setter TargetName="CardBorder" Property="BorderThickness" Value="2"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </hc:Window.Resources>
 
@@ -40,19 +99,33 @@
         </DockPanel>
 
         <!-- Issues List -->
-        <ScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Issues}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding Title}"
-                          Margin="4"
-                          Command="{Binding DataContext.SetSelectedIssueCommand, RelativeSource={RelativeSource AncestorType=hc:Window}}"
-                          CommandParameter="{Binding}"/>
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="4, 0, 4, 0" CornerRadius="5">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                <StackPanel HorizontalAlignment="Center">
+                    <WrapPanel HorizontalAlignment="Center">
+                        <ItemsControl ItemsSource="{Binding Issues}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel HorizontalAlignment="Center" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource CardButtonStyle}" 
+                                    Content="{Binding Title}"
+                                    Command="{Binding DataContext.SetSelectedIssueCommand, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                    CommandParameter="{Binding}"
+                                    helpers:CardButtonHelper.ImageSource="{Binding ImagePath}"
+                                    helpers:CardButtonHelper.Subtitle="{Binding CreatedAt, StringFormat='{}{0:yyyy-MM-dd}'}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </WrapPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+
 
         <!-- Description and Snapshot -->
         <StackPanel Grid.Row="2" Margin="0 5">
