@@ -1,25 +1,25 @@
 ﻿<hc:Window x:Class="IssueManager.Views.LoadViewPointView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:IssueManager.Views"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:viewModels="clr-namespace:IssueManager.ViewModels"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
-        ResizeMode="NoResize" Title="LoadViewPointView" 
-        Height="700" Width="500">
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:IssueManager.Views"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:viewModels="clr-namespace:IssueManager.ViewModels"
+           mc:Ignorable="d"
+           d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
+           ResizeMode="NoResize" Title="Load Issue"
+           Height="700" Width="500">
 
     <hc:Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/IssueManager;component/Resources/HandyControlResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary> 
+        </ResourceDictionary>
     </hc:Window.Resources>
 
-        <Grid>
+    <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -27,52 +27,75 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Project Selector -->
         <DockPanel Grid.Row="0" Margin="0 5 0 10">
-            <TextBlock Text="Project: " Margin="4 0 0 2" Style="{StaticResource TextBlockSubTitleBold}" HorizontalAlignment="Left"/>
-            <ComboBox Margin="2,2,4,2" DockPanel.Dock="Right" />
+            <TextBlock Text="Project: " Margin="4 0 0 2" 
+                       Style="{StaticResource TextBlockSubTitleBold}" 
+                       HorizontalAlignment="Left"/>
+            <ComboBox Margin="2,2,4,2"
+                      DockPanel.Dock="Right"
+                      ItemsSource="{Binding UserProjects}"
+                      DisplayMemberPath="ProjectName"
+                      SelectedItem="{Binding SelectedProject}"/>
         </DockPanel>
 
+        <!-- Issues List -->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Issues}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Title}"
+                          Margin="4"
+                          Command="{Binding DataContext.SetSelectedIssueCommand, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                          CommandParameter="{Binding}"/>
 
-        <ScrollViewer Grid.Row="1"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
+        <!-- Description and Snapshot -->
         <StackPanel Grid.Row="2" Margin="0 5">
-            <TextBlock Text="Description:" Margin="4 0 0 2" Style="{StaticResource TextBlockSubTitleBold}" HorizontalAlignment="Left"/>
+            <TextBlock Text="Description:" Margin="4 0 0 2" 
+                       Style="{StaticResource TextBlockSubTitleBold}" 
+                       HorizontalAlignment="Left"/>
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Border Grid.Column="0" BorderBrush="Gray" 
                         BorderThickness="1" Margin="0, 0, 4, 0"
                         CornerRadius="5">
-                    <TextBlock Height="120"/>
+                    <TextBlock Height="120" 
+                               TextWrapping="Wrap" 
+                               Padding="5"
+                               Text="{Binding SelectedIssue.Description}"/>
                 </Border>
-                
-                <Border Grid.Column="1" BorderBrush="Gray" 
+
+                <Border Grid.Column="1" BorderBrush="Gray"
                         BorderThickness="1" Margin="0"
                         CornerRadius="5">
-                    <Image Stretch="UniformToFill" />
+                    <Image Stretch="UniformToFill" 
+                           Source="{Binding SelectedIssue.RevitElements[0].SnapshotImagePath}" />
                 </Border>
             </Grid>
         </StackPanel>
 
-
-        <!-- Data Grid to be styled after we add some content so that we can see styling effects. -->
-
-        <DataGrid x:Name="CommentGrid"
-              Grid.Row="3"
-              AutoGenerateColumns="False"
-              IsReadOnly="True"
-              HeadersVisibility="Column"
-              RowHeight="30"
-              Margin="4 0 4 10">
+        <!-- Comments Grid -->
+        <DataGrid Grid.Row="3"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  RowHeight="30"
+                  Margin="4 0 4 10"
+                  ItemsSource="{Binding SelectedIssue.Comments}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Comment" Width="*"/>
-                <DataGridTextColumn Header="Created By" Width="120"/>
-                <DataGridTextColumn Header="Created At"  Width="100"/>
+                <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Message}"/>
+                <DataGridTextColumn Header="Created By" Width="120" Binding="{Binding CreatedBy}"/>
+                <DataGridTextColumn Header="Created At" Width="100" Binding="{Binding CreatedAt, StringFormat=\{0:yyyy-MM-dd\}}"/>
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </hc:Window>
