@@ -1,8 +1,10 @@
 ﻿using DTOs.Areas;
 using DTOs.IssueLabel;
 using DTOs.Labels;
+using DTOs.Projects;
 using DTOs.RevitElements;
 using DTOs.Users;
+using IssueManager.Constants;
 using IssueManager.Revit;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using System.Collections.ObjectModel;
@@ -19,7 +21,7 @@ namespace IssueManager.ViewModels
             _issueService = issueService;
             _lookupService = lookupService;
 
-            LoadLookupsAsync();
+            LoadUserProjectsAsync();
         }
 
         [ObservableProperty] private string title;
@@ -31,17 +33,32 @@ namespace IssueManager.ViewModels
         [ObservableProperty] private Priority priorityChoice;
         [ObservableProperty] private string? snapshotImagePath;
         [ObservableProperty] private LabelDto? selectedLabel;
+        [ObservableProperty] private ProjectDto? selectedProject;
 
+        public ObservableCollection<ProjectDto> UserProjects { get; set; } = new();
         public ObservableCollection<AreaDto> Areas { get; set; } = new();
         public ObservableCollection<UserDto> Users { get; set; } = new();
         public ObservableCollection<LabelDto> Labels { get; set; } = new();
         public static Action CloseAction { get; internal set; }
 
-        private async void LoadLookupsAsync()
+        private async void LoadUserProjectsAsync()
         {
-            MessageBox.Show($"DEBUG:\nProjectId = {AppSession.ProjectId}\nUserId = {AppSession.UserId}");
-            projectId = AppSession.ProjectId ?? 0;
+            if (string.IsNullOrWhiteSpace(AppSession.UserId)) return;
 
+            var projects = await _lookupService.GetProjectsByUserIdAsync(AppSession.UserId);
+            UserProjects.Clear();
+            foreach (var p in projects) UserProjects.Add(p);
+        }
+
+        partial void OnSelectedProjectChanged(ProjectDto? value)
+        {
+            if (value is null) return;
+            projectId = value.ProjectId;
+            LoadLookupsByProjectIdAsync(projectId);
+        }
+
+        private async void LoadLookupsByProjectIdAsync(int projectId)
+        {
             var areas = await _lookupService.GetAreasByProjectIdAsync(projectId);
             var users = await _lookupService.GetUsersByProjectIdAsync(projectId);
             var labels = await _lookupService.GetLabelsByProjectIdAsync(projectId);
@@ -64,7 +81,7 @@ namespace IssueManager.ViewModels
                 Title = Title,
                 Description = Description,
                 AreaId = AreaId,
-                ProjectId = AppSession.ProjectId ?? 0,
+                ProjectId = SelectedProject?.ProjectId ?? 0,
                 CreatedByUserId = AppSession.UserId,
                 AssignedToUserId = AssignedToUserId,
                 CreatedAt = DateTime.UtcNow,
@@ -90,7 +107,7 @@ namespace IssueManager.ViewModels
             if (created is not null)
             {
                 MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                ResetForm(); // 🧹
+                ResetForm();
             }
             else
             {
@@ -134,6 +151,7 @@ namespace IssueManager.ViewModels
             PriorityChoice = default;
             SnapshotImagePath = null;
             SelectedLabel = null;
+            SelectedProject = null;
         }
 
         [RelayCommand]
@@ -146,7 +164,4 @@ namespace IssueManager.ViewModels
     }
 
     public static class PriorityValues
-    {
-        public static readonly List<Priority> All = Enum.GetValues(typeof(Priority)).Cast<Priority>().ToList();
-    }
-}
+  
