@@ -42,5 +42,12 @@
 
         public Task<HttpResponseMessage> DeleteAsync(int id)
             => DeleteAsync(Issues.Delete(id));
+
+        public async Task<List<IssueDto>> GetIssuesByProjectIdAsync(int projectId)
+        {
+            return await GetAsync<List<IssueDto>>($"api/issues/project/{projectId}");
+        }
+
+
     }
 }
