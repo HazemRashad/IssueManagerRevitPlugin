@@ -2,21 +2,18 @@
 {
     public static class RevitIssue
     {
-        public static string ExportSnapshot(string path)
+        public static string ExportSnapshot(string fullOutputPath)
         {
             var doc = Context.Document;
             var view = Context.ActiveView;
-
-            string fileName = $"Snapshot_{view.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
-            string fullPath = Path.Combine(path, fileName);
 
             var options = new ImageExportOptions
             {
                 ZoomType = ZoomFitType.Zoom,
                 PixelSize = 1920,
-                FilePath = fullPath,
+                FilePath = Path.ChangeExtension(fullOutputPath, null),
                 FitDirection = FitDirectionType.Horizontal,
-                ExportRange = ExportRange.VisibleRegionOfCurrentView,
+                ExportRange = ExportRange.CurrentView,
                 HLRandWFViewsFileType = ImageFileType.PNG,
                 ShadowViewsFileType = ImageFileType.PNG,
                 ImageResolution = ImageResolution.DPI_150
@@ -25,13 +22,14 @@
             try
             {
                 doc.ExportImage(options);
-                return fullPath + ".png";
+                return fullOutputPath;
             }
-            catch (Exception ex)
+            catch
             {
                 return string.Empty;
             }
         }
+
 
         public static string GetCameraPosition()
         {

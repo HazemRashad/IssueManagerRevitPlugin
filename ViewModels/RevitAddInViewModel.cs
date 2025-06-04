@@ -6,18 +6,37 @@ namespace IssueManager.ViewModels
     public partial class RevitAddInViewModel : ObservableObject
     {
         [RelayCommand]
-        private void ExportSnapshot()
+        private async Task ExportSnapshotAsync()
         {
-            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string snapshotPath = RevitIssue.ExportSnapshot(outputPath);
+            string tempPath = Path.Combine(Path.GetTempPath(), $"Snapshot_{DateTime.Now:yyyyMMdd_HHmmss}.png");
 
-            if (!string.IsNullOrWhiteSpace(snapshotPath))
-            {
-                MessageBox.Show($"Snapshot saved to: {snapshotPath}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
+            string snapshotPath = RevitIssue.ExportSnapshot(tempPath);
+            if (string.IsNullOrWhiteSpace(snapshotPath))
             {
                 MessageBox.Show("Failed to export snapshot.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var multipart = new MultipartFormDataContent();
+                multipart.Add(new StreamContent(File.OpenRead(snapshotPath)), "file", Path.GetFileName(snapshotPath));
+
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://your-api.com");
+                var response = await client.PostAsync("/api/snapshots/upload", multipart);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Upload failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var imageUrl = await response.Content.ReadAsStringAsync();
+                MessageBox.Show("Snapshot uploaded and set!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
