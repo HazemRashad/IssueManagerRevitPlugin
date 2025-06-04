@@ -16,7 +16,6 @@
 
             services.TryAddTransient<ApiService>();
             services.TryAddTransient<IssueApiService>();
-            services.TryAddTransient<CompanyApiService>();
             services.TryAddTransient<ProjectApiService>();
             services.TryAddTransient<UserApiService>();
 

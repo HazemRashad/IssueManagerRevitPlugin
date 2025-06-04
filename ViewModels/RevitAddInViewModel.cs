@@ -23,8 +23,8 @@ namespace IssueManager.ViewModels
                 multipart.Add(new StreamContent(File.OpenRead(snapshotPath)), "file", Path.GetFileName(snapshotPath));
 
                 using var client = new HttpClient();
-                client.BaseAddress = new Uri("https://your-api.com");
-                var response = await client.PostAsync("/api/snapshots/upload", multipart);
+                client.BaseAddress = new Uri("https://localhost:44374/");
+                var response = await client.PostAsync("/api/Snapshot/upload", multipart);
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Upload failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
