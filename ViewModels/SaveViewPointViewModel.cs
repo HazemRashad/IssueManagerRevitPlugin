@@ -98,7 +98,6 @@ namespace IssueManager.ViewModels
                             ElementId = "123",
                             ElementUniqueId = "ABC-123",
                             ViewpointCameraPosition = "0,0,0",
-                            SnapshotImagePath = SnapshotImagePath
                         }
                     }
             };
