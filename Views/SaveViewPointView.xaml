@@ -102,7 +102,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Help" Width="70" Margin="4" Style="{StaticResource ButtonInfo}"/>
+            <Button Content="Info" Width="70" Margin="4" Style="{StaticResource ButtonInfo}" Click="InfoButton_Click"/>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Save" Width="70" Margin="4" Style="{StaticResource ButtonPrimary}"  Command="{Binding SaveCommand}"/>
                 <Button Content="Cancel" Width="70" Margin="4" Style="{StaticResource ButtonDanger}" Command="{Binding CancelCommand}"/>

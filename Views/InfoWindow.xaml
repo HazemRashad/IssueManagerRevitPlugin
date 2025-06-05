@@ -1,0 +1,65 @@
+﻿<hc:Window x:Class="IssueManager.Views.InfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        Title="Information"
+        Height="500" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <hc:Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/IssueManager;component/Resources/HandyControlResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockDefaultBold}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </ResourceDictionary>
+    </hc:Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <StackPanel>
+
+                <!-- Basic Info -->
+                <TextBlock TextWrapping="Wrap" FontSize="14">
+                    <Run Text="ℹ Application Info" FontWeight="Bold" FontSize="16"/>
+                    <LineBreak/><LineBreak/>
+                    <Run Text="This screen allows you to create a new issue in the BIM Issue Manager."/>
+                    <LineBreak/><LineBreak/>
+                    <Run Text="You can select a project, assign it to a user, define an area, and set a priority."/>
+                    <LineBreak/><LineBreak/>
+                    <Run Text="You can also capture a snapshot from Revit to help visualize the issue."/>
+                </TextBlock>
+
+                <Separator Margin="0 15"/>
+                <TextBlock Text="Founders:"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    
+                <!-- Founder 1 -->
+                <StackPanel Margin="0 10" Orientation="Vertical" HorizontalAlignment="Center" Width="150">
+                    <Image  Width="120" Height="120" Stretch="UniformToFill" Margin="0 0 0 8"/>
+                    <TextBlock Text="Ahmed Moanes" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Width="150"/>
+                    <TextBlock Text="AEC Software Engineer" FontSize="12" Foreground="Gray" TextAlignment="Center" TextWrapping="Wrap" Width="150"/>
+                </StackPanel>
+
+                <!-- Founder 2 -->
+                    <StackPanel Margin="0 10" Orientation="Vertical" HorizontalAlignment="Center"  Width="150">
+                    <Image  Width="120" Height="120" Stretch="UniformToFill" Margin="0 0 0 8"/>
+                        <TextBlock Text="Mostafa Elwahsh" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"  Width="150"/>
+                        <TextBlock Text="AEC Software Engineer" FontSize="12" Foreground="Gray" TextAlignment="Center" TextWrapping="Wrap" Width="150"/>
+                </StackPanel>
+
+                <!-- Founder 3 -->
+                    <StackPanel Margin="0 10" Orientation="Vertical" HorizontalAlignment="Center"  Width="150">
+                        <Image  Width="120" Height="120" Stretch="UniformToFill" Margin="0 0 0 8"  />
+                        <TextBlock Text="Hazem Rashad" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Width="150"/>
+                        <TextBlock Text="AEC Software Engineer" FontSize="12" Foreground="Gray" TextAlignment="Center" TextWrapping="Wrap"  Width="150"/>
+                </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</hc:Window>

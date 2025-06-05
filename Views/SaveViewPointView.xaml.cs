@@ -12,7 +12,13 @@ namespace IssueManager.Views
             DataContext = viewModel;
             InitializeComponent();
             SaveViewPointViewModel.CloseAction = this.Close;
-            
         }
+            public void InfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            var InfoWindow = new InfoWindow();
+            InfoWindow.Owner = this; // يخلي النافذة دي parent
+             InfoWindow.ShowDialog();
+        }
+    
     }
 }
