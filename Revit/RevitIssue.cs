@@ -13,7 +13,7 @@
                 PixelSize = 1920,
                 FilePath = Path.ChangeExtension(fullOutputPath, null),
                 FitDirection = FitDirectionType.Horizontal,
-                ExportRange = ExportRange.CurrentView,
+                ExportRange = ExportRange.VisibleRegionOfCurrentView,
                 HLRandWFViewsFileType = ImageFileType.PNG,
                 ShadowViewsFileType = ImageFileType.PNG,
                 ImageResolution = ImageResolution.DPI_150

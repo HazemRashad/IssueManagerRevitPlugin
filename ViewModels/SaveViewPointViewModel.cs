@@ -101,14 +101,14 @@ namespace IssueManager.ViewModels
                 ViewpointCameraPosition = "0,0,0",
             }
          },
-                Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
-         ? new SnapshotDto
-         {
-             Path = SnapshotImagePath,
-             CreatedAt = DateTime.UtcNow
-         }
-         : null
-            };
+                       Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
+                ? new SnapshotDto
+                {
+                    Path = SnapshotImagePath,
+                    CreatedAt = DateTime.UtcNow
+                }
+                : null
+                   };
 
 
             var created = await _issueService.CreateAsync(dto);
@@ -162,8 +162,15 @@ namespace IssueManager.ViewModels
                     return;
                 }
 
-                var imagePath = await response.Content.ReadAsStringAsync();
-                SnapshotImagePath = new Uri(client.BaseAddress!, imagePath).ToString(); // ✅ URL كامل
+                var rawPath = await response.Content.ReadAsStringAsync();
+
+                // تأكد إنك ماضفتش الـ base URL مرتين من API
+                if (!rawPath.StartsWith("http"))
+                {
+                    rawPath = "https://localhost:44374/" + rawPath.TrimStart('/');
+                }
+
+                SnapshotImagePath = rawPath;
 
                 MessageBox.Show("Snapshot uploaded and linked!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }

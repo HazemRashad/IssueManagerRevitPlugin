@@ -151,7 +151,7 @@
                         BorderThickness="1" Margin="0"
                         CornerRadius="5">
                     <Image Stretch="UniformToFill" 
-                           Source="{Binding SelectedIssue.RevitElements[0].SnapshotImagePath}" />
+                           Source="{Binding SelectedIssue.ImagePath}" />
                 </Border>
             </Grid>
         </StackPanel>
