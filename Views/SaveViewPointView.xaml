@@ -85,7 +85,7 @@
                 <Button Content="📦" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}" ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>
                 <Button Content="📷" Width="35" Margin="2" Style="{StaticResource ButtonPrimary.Small}" ToolTip="Capture Snapshot" Command="{Binding ExportSnapshotCommand}" Padding="0,-1,0,3"/>
                 <Button Content="✏" Width="35" Margin="2" Style="{StaticResource ButtonSuccess.Small}" ToolTip="Magnifier"   />
-                <Button Content="❌" Width="35" Margin="2" Style="{StaticResource ButtonDanger.Small}"/>
+                <Button Content="❌" Width="35" Margin="2" Style="{StaticResource ButtonDanger.Small}"  Command="{Binding ClearSnapshotCommand}"/>
             </StackPanel>
 
             <!-- Description -->

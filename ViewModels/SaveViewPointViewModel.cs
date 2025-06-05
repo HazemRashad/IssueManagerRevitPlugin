@@ -195,6 +195,11 @@ namespace IssueManager.ViewModels
         [RelayCommand]
         private void Cancel() => CloseWindow();
 
+        [RelayCommand]
+        private void ClearSnapshot()
+        {
+            SnapshotImagePath = null;
+        }
         private void CloseWindow()
         {
             CloseAction?.Invoke();
