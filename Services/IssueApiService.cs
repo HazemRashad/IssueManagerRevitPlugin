@@ -45,7 +45,7 @@
 
         public async Task<List<IssueDto>> GetIssuesByProjectIdAsync(int projectId)
         {
-            return await GetAsync<List<IssueDto>>($"api/issues/project/{projectId}");
+            return await GetAsync<List<IssueDto>>($"api/issues/project-issues/{projectId}");
         }
 
 

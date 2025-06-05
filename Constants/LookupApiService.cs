@@ -20,7 +20,7 @@ namespace IssueManager.Constants
             => GetAsync<List<AreaDto>>($"api/area/project/{projectId}");
 
         public Task<List<UserDto>> GetUsersByProjectIdAsync(int projectId)
-            => GetAsync<List<UserDto>>($"api/users/project/{projectId}");
+            => GetAsync<List<UserDto>>($"api/users/project-users/{projectId}");
 
         public Task<List<LabelDto>> GetLabelsByProjectIdAsync(int projectId)
             => GetAsync<List<LabelDto>>($"api/labels/project/{projectId}/labels");

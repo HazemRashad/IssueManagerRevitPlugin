@@ -79,7 +79,7 @@
             <!-- Snapshot + Buttons -->
             <TextBlock Text="Snapshot:" />
             <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 0 0 10" CornerRadius="5">
-                <Image Height="100" Stretch="UniformToFill"  Source="{Binding SnapshotImagePath}"/>
+                <Image Height="100" Stretch="UniformToFill" Source="{Binding SnapshotImagePath}"/>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="📦" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}" ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>

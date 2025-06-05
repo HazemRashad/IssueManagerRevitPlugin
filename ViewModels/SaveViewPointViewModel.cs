@@ -3,6 +3,7 @@ using DTOs.IssueLabel;
 using DTOs.Labels;
 using DTOs.Projects;
 using DTOs.RevitElements;
+using DTOs.Snapshots;
 using DTOs.Users;
 using IssueManager.Constants;
 using IssueManager.Revit;
@@ -87,20 +88,28 @@ namespace IssueManager.ViewModels
                 CreatedAt = DateTime.UtcNow,
                 Priority = PriorityChoice,
                 Labels = SelectedLabel is not null
-                    ? new List<AssignLabelToIssueDto> { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } }
-                    : new List<AssignLabelToIssueDto>(),
+         ? new List<AssignLabelToIssueDto> { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } }
+         : new List<AssignLabelToIssueDto>(),
                 RevitElements = string.IsNullOrWhiteSpace(SnapshotImagePath)
-                    ? new List<IssueRevitElementDto>()
-                    : new List<IssueRevitElementDto>
-                    {
-                        new IssueRevitElementDto
-                        {
-                            ElementId = "123",
-                            ElementUniqueId = "ABC-123",
-                            ViewpointCameraPosition = "0,0,0",
-                        }
-                    }
+         ? new List<IssueRevitElementDto>()
+         : new List<IssueRevitElementDto>
+         {
+            new IssueRevitElementDto
+            {
+                ElementId = "123",
+                ElementUniqueId = "ABC-123",
+                ViewpointCameraPosition = "0,0,0",
+            }
+         },
+                Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
+         ? new SnapshotDto
+         {
+             Path = SnapshotImagePath,
+             CreatedAt = DateTime.UtcNow
+         }
+         : null
             };
+
 
             var created = await _issueService.CreateAsync(dto);
             if (created is not null)
@@ -126,18 +135,41 @@ namespace IssueManager.ViewModels
         }
 
         [RelayCommand]
-        private void ExportSnapshot()
-        {
-            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string snapshotPath = RevitIssue.ExportSnapshot(outputPath);
 
-            if (!string.IsNullOrWhiteSpace(snapshotPath))
-            {
-                MessageBox.Show($"Snapshot saved to: {snapshotPath}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
+        private async Task ExportSnapshotAsync()
+        {
+            string tempPath = Path.Combine(Path.GetTempPath(), $"Snapshot_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            string snapshotPath = RevitIssue.ExportSnapshot(tempPath);
+
+            if (string.IsNullOrWhiteSpace(snapshotPath))
             {
                 MessageBox.Show("Failed to export snapshot.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var multipart = new MultipartFormDataContent();
+                multipart.Add(new StreamContent(File.OpenRead(snapshotPath)), "file", Path.GetFileName(snapshotPath));
+
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:44374/");
+                var response = await client.PostAsync("/api/Snapshot/upload", multipart);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Upload failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var imagePath = await response.Content.ReadAsStringAsync();
+                SnapshotImagePath = new Uri(client.BaseAddress!, imagePath).ToString(); // ✅ URL كامل
+
+                MessageBox.Show("Snapshot uploaded and linked!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error uploading image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
