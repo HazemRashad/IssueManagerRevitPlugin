@@ -5,9 +5,9 @@ using DTOs.Projects;
 using DTOs.RevitElements;
 using DTOs.Snapshots;
 using DTOs.Users;
-using IssueManager.Constants;
 using IssueManager.Revit;
 using Nice3point.Revit.Toolkit.External.Handlers;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace IssueManager.ViewModels
@@ -77,6 +77,7 @@ namespace IssueManager.ViewModels
         [RelayCommand]
         private async Task SaveAsync()
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             var dto = new CreateIssueDto
             {
                 Title = Title,
@@ -87,28 +88,29 @@ namespace IssueManager.ViewModels
                 AssignedToUserId = AssignedToUserId,
                 CreatedAt = DateTime.UtcNow,
                 Priority = PriorityChoice,
-                Labels = SelectedLabel is not null
-         ? new List<AssignLabelToIssueDto> { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } }
-         : new List<AssignLabelToIssueDto>(),
+                Labels = SelectedLabel is not null 
+                ? new List<AssignLabelToIssueDto> 
+                { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } } 
+                : new List<AssignLabelToIssueDto>(),
                 RevitElements = string.IsNullOrWhiteSpace(SnapshotImagePath)
-         ? new List<IssueRevitElementDto>()
-         : new List<IssueRevitElementDto>
-         {
-            new IssueRevitElementDto
-            {
-                ElementId = "123",
-                ElementUniqueId = "ABC-123",
-                ViewpointCameraPosition = "0,0,0",
-            }
-         },
-                       Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
+                ? new List<IssueRevitElementDto>()
+                : RevitIssue.GetSelectedRevitElements()
+                    .Select(el => new IssueRevitElementDto
+                    {
+                        ElementId = el.ElementId,
+                        ElementUniqueId = el.ElementUniqueId,
+                        ViewpointCameraPosition = el.ViewpointCameraPosition
+                    })
+                    .ToList(),
+                Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
                 ? new SnapshotDto
                 {
                     Path = SnapshotImagePath,
                     CreatedAt = DateTime.UtcNow
                 }
                 : null
-                   };
+            };
+#pragma warning restore CS8601 // Possible null reference assignment.
 
 
             var created = await _issueService.CreateAsync(dto);

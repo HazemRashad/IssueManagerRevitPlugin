@@ -1,4 +1,6 @@
-﻿namespace IssueManager.Revit
+﻿using DTOs.RevitElements;
+
+namespace IssueManager.Revit
 {
     public static class RevitIssue
     {
@@ -44,13 +46,26 @@
             return "0,0,0";
         }
 
-        public static List<string> GetSelectedElementIds()
+        public static List<RevitElementDto> GetSelectedRevitElements()
         {
-            return Context.ActiveUiDocument.Selection
+            var uidoc = Context.ActiveUiDocument;
+            var doc = uidoc.Document;
+
+            return uidoc.Selection
                 .GetElementIds()
-                .Select(id => id.IntegerValue.ToString())
+                .Select(id =>
+                {
+                    var element = doc.GetElement(id);
+                    return new RevitElementDto
+                    {
+                        ElementId = id.IntegerValue.ToString(),
+                        ElementUniqueId = element?.UniqueId ?? "",
+                        ViewpointCameraPosition = GetCameraPosition()
+                    };
+                })
                 .ToList();
         }
+
 
         public static void IsolateSelectionInSectionBox()
         {

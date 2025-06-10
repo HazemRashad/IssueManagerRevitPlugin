@@ -50,17 +50,17 @@ namespace IssueManager.ViewModels
         [RelayCommand]
         private void ShowSelectedElementIds()
         {
-            List<string> ids = RevitIssue.GetSelectedElementIds();
+            //List<string> ids = RevitIssue.GetSelectedElementIds();
 
-            if (ids.Count == 0)
-            {
-                MessageBox.Show("No elements selected.", "Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            else
-            {
-                string joinedIds = string.Join(", ", ids);
-                MessageBox.Show($"Selected Element IDs: {joinedIds}", "Selection", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            //if (ids.Count == 0)
+            //{
+            //    MessageBox.Show("No elements selected.", "Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //}
+            //else
+            //{
+            //    string joinedIds = string.Join(", ", ids);
+            //    MessageBox.Show($"Selected Element IDs: {joinedIds}", "Selection", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
         }
 
         private readonly AsyncEventHandler _asyncEventHandler = new();
