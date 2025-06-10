@@ -69,7 +69,8 @@
               SelectedValue="{Binding SelectedLabelId, Mode=TwoWay}"
              Margin="0 0 0 10" 
           
-          />
+          
+            />
 
         </StackPanel>
 
@@ -79,7 +80,7 @@
             <!-- Snapshot + Buttons -->
             <TextBlock Text="Snapshot:" />
             <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 0 0 10" CornerRadius="5">
-                <Image Height="200" Stretch="UniformToFill" Source="{Binding SnapshotImagePath}" hc:Magnifier.Instance="{x:Static hc:Magnifier.Default}"/>
+                <Image Height="150" Stretch="Fill" Source="{Binding SnapshotImagePath}" hc:Magnifier.Instance="{x:Static hc:Magnifier.Default}"/>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="📦" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}" ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>

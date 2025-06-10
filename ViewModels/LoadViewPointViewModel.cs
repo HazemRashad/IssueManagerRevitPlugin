@@ -1,11 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DTOs.Comments;
 using DTOs.Issues;
 using DTOs.Projects;
-using DTOs.Comments;
 using IssueManager.Constants;
 using IssueManager.Services;
+using System;
 using System.Collections.ObjectModel;
+using System.Security.Policy;
 
 namespace IssueManager.ViewModels
 {
@@ -58,29 +60,27 @@ namespace IssueManager.ViewModels
 
             foreach (var issue in issues)
             {
-                if (!string.IsNullOrWhiteSpace(issue.Snapshot?.Path))
-                {
-                    try
-                    {
-                        // Step 1: جهز المسار المحلي المؤقت
-                        var fileName = Path.GetFileName(issue.Snapshot.Path);
-                        var tempPath = Path.Combine(Path.GetTempPath(), fileName);
+                //if (!string.IsNullOrWhiteSpace(issue.Snapshot?.Path))
+                //{
+                //    try
+                //    {
+                //        var fileName = Path.GetFileName(issue.Snapshot.Path);
+                //        var tempPath = Path.Combine(Path.GetTempPath(), fileName);
 
-                        // Step 2: حمل الصورة من السيرفر
-                        using var httpClient = new HttpClient();
-                        var imageBytes = await httpClient.GetByteArrayAsync(issue.Snapshot.ImagePath);
+                //        using var httpClient = new HttpClient();
+                //        byte[] imageBytes;
 
-                        // Step 3: خزّن الصورة مؤقتًا
-                        File.WriteAllBytes(tempPath, imageBytes);
+                //        imageBytes = await httpClient.GetByteArrayAsync(issue.Snapshot.ImagePath);
 
-                        // Step 4: اربط المسار المؤقت بالـ LocalImagePath
-                        issue.Snapshot.LocalImagePath = tempPath;
-                    }
-                    catch
-                    {
-                        issue.Snapshot.LocalImagePath = null;
-                    }
-                }
+                //        File.WriteAllBytes(tempPath, imageBytes);
+
+                //        issue.Snapshot.LocalImagePath = tempPath;
+                //    }
+                //    catch
+                //    {
+                //        issue.Snapshot.LocalImagePath = null;
+                //    }
+                //}
 
                 Issues.Add(issue);
             }
