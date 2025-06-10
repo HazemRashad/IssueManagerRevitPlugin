@@ -129,7 +129,7 @@
 
         <!-- Description and Snapshot -->
         <StackPanel Grid.Row="2" Margin="0 5">
-            <TextBlock Text="Snapshot and Description:" Margin="4 0 0 2" 
+            <TextBlock Text="Details:" Margin="4 0 0 2" 
                        Style="{StaticResource TextBlockSubTitleBold}" 
                        HorizontalAlignment="Left"/>
             <Grid Margin="5">

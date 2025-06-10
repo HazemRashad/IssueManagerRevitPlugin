@@ -88,20 +88,23 @@ namespace IssueManager.ViewModels
                 AssignedToUserId = AssignedToUserId,
                 CreatedAt = DateTime.UtcNow,
                 Priority = PriorityChoice,
-                Labels = SelectedLabel is not null 
-                ? new List<AssignLabelToIssueDto> 
-                { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } } 
+                Labels = SelectedLabel is not null
+                ? new List<AssignLabelToIssueDto>
+                { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } }
                 : new List<AssignLabelToIssueDto>(),
                 RevitElements = string.IsNullOrWhiteSpace(SnapshotImagePath)
                 ? new List<IssueRevitElementDto>()
                 : RevitIssue.GetSelectedRevitElements()
-                    .Select(el => new IssueRevitElementDto
-                    {
-                        ElementId = el.ElementId,
-                        ElementUniqueId = el.ElementUniqueId,
-                        ViewpointCameraPosition = el.ViewpointCameraPosition
-                    })
-                    .ToList(),
+                .Select(el => new IssueRevitElementDto
+                {
+                    ElementId = el.ElementId,
+                    ElementUniqueId = el.ElementUniqueId,
+                    ViewpointCameraPosition = el.ViewpointCameraPosition,
+                    ViewpointForwardDirection = el.ViewpointForwardDirection,
+                    ViewpointUpDirection = el.ViewpointUpDirection
+                })
+                .ToList(),
+
                 Snapshot = !string.IsNullOrWhiteSpace(SnapshotImagePath)
                 ? new SnapshotDto
                 {

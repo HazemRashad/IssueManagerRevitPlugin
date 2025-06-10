@@ -1,13 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DTOs.Comments;
-using DTOs.Issues;
+﻿using DTOs.Comments;
 using DTOs.Projects;
-using IssueManager.Constants;
-using IssueManager.Services;
-using System;
+using IssueManager.Revit;
+using Nice3point.Revit.Toolkit.External.Handlers;
 using System.Collections.ObjectModel;
-using System.Security.Policy;
 
 namespace IssueManager.ViewModels
 {
@@ -47,10 +42,17 @@ namespace IssueManager.ViewModels
             LoadIssuesByProjectIdAsync(value.ProjectId);
         }
 
+        private readonly AsyncEventHandler _asyncEventHandler = new();
+
         [RelayCommand]
-        private void SetSelectedIssue(IssueDto issue)
+        private async Task SetSelectedIssue(IssueDto issue)
         {
             SelectedIssue = issue;
+            if (SelectedIssue is null) return;
+            await _asyncEventHandler.RaiseAsync(_ =>
+            {
+                RevitIssue.NavigateToViewPointAndSelectElements(issue);
+            });
         }
 
         private async void LoadIssuesByProjectIdAsync(int projectId)
@@ -60,28 +62,6 @@ namespace IssueManager.ViewModels
 
             foreach (var issue in issues)
             {
-                //if (!string.IsNullOrWhiteSpace(issue.Snapshot?.Path))
-                //{
-                //    try
-                //    {
-                //        var fileName = Path.GetFileName(issue.Snapshot.Path);
-                //        var tempPath = Path.Combine(Path.GetTempPath(), fileName);
-
-                //        using var httpClient = new HttpClient();
-                //        byte[] imageBytes;
-
-                //        imageBytes = await httpClient.GetByteArrayAsync(issue.Snapshot.ImagePath);
-
-                //        File.WriteAllBytes(tempPath, imageBytes);
-
-                //        issue.Snapshot.LocalImagePath = tempPath;
-                //    }
-                //    catch
-                //    {
-                //        issue.Snapshot.LocalImagePath = null;
-                //    }
-                //}
-
                 Issues.Add(issue);
             }
         }
