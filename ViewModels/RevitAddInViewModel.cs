@@ -43,8 +43,8 @@ namespace IssueManager.ViewModels
         [RelayCommand]
         private void ShowCameraPosition()
         {
-            string cameraPosition = RevitIssue.GetCameraPosition();
-            MessageBox.Show($"Camera Position: {cameraPosition}", "View3D Info", MessageBoxButton.OK, MessageBoxImage.Information);
+           // string cameraPosition = RevitIssue.GetCameraPosition();
+            //MessageBox.Show($"Camera Position: {cameraPosition}", "View3D Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         [RelayCommand]
