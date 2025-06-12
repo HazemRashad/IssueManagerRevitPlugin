@@ -1,8 +1,10 @@
 ﻿using DTOs.Comments;
 using DTOs.Projects;
+using DTOs.Issues;
 using IssueManager.Revit;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace IssueManager.ViewModels
 {
@@ -17,29 +19,79 @@ namespace IssueManager.ViewModels
             _issueService = issueService;
 
             LoadUserProjectsAsync();
+            LoadPriorities();
+
+            ApplyFilterCommand = new RelayCommand(async () => await FilterIssuesAsync());
+            ResetFilterCommand = new RelayCommand(async () =>
+            {
+                SelectedPriority = null;
+                SelectedDate = null;
+                SelectedProject = null;
+                await LoadUserProjectsAsync();
+                Issues.Clear();
+            });
         }
 
         [ObservableProperty] private ProjectDto? selectedProject;
         [ObservableProperty] private IssueDto? selectedIssue;
+        [ObservableProperty] private string? selectedPriority;
+        [ObservableProperty] private DateTime? selectedDate;
 
-        public ObservableCollection<ProjectDto> UserProjects { get; set; } = new();
+        public ObservableCollection<ProjectDto> Projects { get; set; } = new();
         public ObservableCollection<IssueDto> Issues { get; set; } = new();
         public ObservableCollection<CommentDto> Comments { get; set; } = new();
+        public ObservableCollection<string> Priorities { get; set; } = new();
 
-        private async void LoadUserProjectsAsync()
+        public ICommand ApplyFilterCommand { get; }
+        public ICommand ResetFilterCommand { get; }
+
+        private void LoadPriorities()
+        {
+            Priorities.Clear();
+            foreach (var name in Enum.GetNames(typeof(Priority)))
+            {
+                Priorities.Add(name);
+            }
+        }
+
+        private async Task LoadUserProjectsAsync()
         {
             if (string.IsNullOrWhiteSpace(AppSession.UserId)) return;
 
             var projects = await _lookupService.GetProjectsByUserIdAsync(AppSession.UserId);
-            UserProjects.Clear();
+            Projects.Clear();
             foreach (var project in projects)
-                UserProjects.Add(project);
+                Projects.Add(project);
+
+            SelectedProject = null;
         }
 
-        partial void OnSelectedProjectChanged(ProjectDto? value)
+        private async Task LoadIssuesAsync()
         {
-            if (value is null) return;
-            LoadIssuesByProjectIdAsync(value.ProjectId);
+            if (SelectedProject == null) return;
+
+            var issues = await _issueService.GetIssuesByProjectIdAsync(SelectedProject.ProjectId);
+            Issues.Clear();
+            foreach (var issue in issues)
+                Issues.Add(issue);
+        }
+
+        private async Task FilterIssuesAsync()
+        {
+            if (SelectedProject == null) return;
+
+            var issues = await _issueService.GetIssuesByProjectIdAsync(SelectedProject.ProjectId);
+            var filtered = issues.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(SelectedPriority))
+                filtered = filtered.Where(i => i.Priority == SelectedPriority);
+
+            if (SelectedDate != null)
+                filtered = filtered.Where(i => i.CreatedAt.Date == SelectedDate.Value.Date);
+
+            Issues.Clear();
+            foreach (var issue in filtered)
+                Issues.Add(issue);
         }
 
         private readonly AsyncEventHandler _asyncEventHandler = new();
@@ -54,19 +106,6 @@ namespace IssueManager.ViewModels
                 RevitIssue.NavigateToViewPointAndSelectElements(issue);
             });
         }
-
-        private async void LoadIssuesByProjectIdAsync(int projectId)
-        {
-            var issues = await _issueService.GetIssuesByProjectIdAsync(projectId);
-            Issues.Clear();
-
-            foreach (var issue in issues)
-            {
-                Issues.Add(issue);
-            }
-        }
-
-
 
         partial void OnSelectedIssueChanged(IssueDto? value)
         {

@@ -67,7 +67,7 @@ namespace IssueManager.ViewModels
                     AppSession.IsUserLoggedIn = true;
                     Console.WriteLine(AppSession.Token);
 
-                    MessageBox.Show($"{body}");
+                   // MessageBox.Show($"{body}");
 
                     RibbonManager.OnLoginSuccess();
 

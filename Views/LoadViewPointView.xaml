@@ -86,20 +86,56 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Project Selector -->
-        <DockPanel Grid.Row="0" Margin="0 5 0 10">
-            <TextBlock Text="Project: " Margin="4 0 0 2" 
-                       Style="{StaticResource TextBlockSubTitleBold}" 
-                       HorizontalAlignment="Left"/>
-            <ComboBox Margin="2,2,4,2"
-                      DockPanel.Dock="Right"
-                      ItemsSource="{Binding UserProjects}"
-                      DisplayMemberPath="ProjectName"
-                      SelectedItem="{Binding SelectedProject}"/>
-        </DockPanel>
+        <!--Filter Section -->
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Width="546" >
+            <StackPanel Orientation="Horizontal">
+                
+                    
+            <hc:ComboBox hc:InfoElement.Placeholder="Project"
+             Width="150"
+             Margin="10 , 10 ,30,10"
+             ItemsSource="{Binding Projects}"
+             SelectedItem="{Binding SelectedProject}"
+             DisplayMemberPath="ProjectName" />
+
+
+
+            <hc:ComboBox hc:InfoElement.Placeholder="Priority"
+                   Width="150"
+                   Margin="10 , 10 ,30,10"
+                   ItemsSource="{Binding Priorities}"
+                   SelectedItem="{Binding SelectedPriority}" />
+
+            <hc:DatePicker hc:InfoElement.Placeholder="Date"
+                     Margin="10"
+                     Width="150"
+                     SelectedDate="{Binding SelectedDate}" />
+
+            <!--<hc:ComboBox hc:InfoElement.Placeholder="Revit Version"
+                   Width="150"
+                   Margin="10"
+                   ItemsSource="{Binding RevitVersionOptions}"
+                   SelectedItem="{Binding SelectedRevitVersion}" />-->
+                
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                
+            <Button Content="Apply"
+              Style="{StaticResource ButtonPrimary}"
+              Command="{Binding ApplyFilterCommand}"
+              Margin="320 ,0, 10, 10"
+              Width="100" />
+
+            <Button Content="Reset"
+              Style="{StaticResource ButtonDanger}"
+              Command="{Binding ResetFilterCommand}"
+              Margin="10 ,0, 0, 10"
+              Width="100" />
+            </StackPanel>
+        </StackPanel>
 
         <!-- Issues List -->
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="4, 0, 4, 0" CornerRadius="5">
+        <Border Grid.Row="1"  BorderBrush="Gray" BorderThickness="1" Margin="4, 0, 4, 0" CornerRadius="5">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                 <StackPanel HorizontalAlignment="Center">
                     <WrapPanel HorizontalAlignment="Center">
@@ -129,15 +165,22 @@
 
         <!-- Description and Snapshot -->
         <StackPanel Grid.Row="2" Margin="0 5">
-            <TextBlock Text="Details:" Margin="4 0 0 2" 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                <TextBlock Text="Snapshot:" Margin="4 0 0 2" 
                        Style="{StaticResource TextBlockSubTitleBold}" 
                        HorizontalAlignment="Left"/>
+                <TextBlock Text="Description:" Margin="200 0 0 2" 
+           Style="{StaticResource TextBlockSubTitleBold}" 
+           HorizontalAlignment="Left"/>
+            </StackPanel>
+
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Border Grid.Column="0" BorderBrush="Gray"
                         BorderThickness="1" Margin="0"
                         CornerRadius="5">
