@@ -34,7 +34,7 @@ namespace IssueManager.ViewModels
         
 
         [RelayCommand]
-        private async Task LoginAsync( PasswordBox passwordbox)
+        private async Task LoginAsync(PasswordBox passwordBox)
         {
             
             IsLoading = true;
@@ -45,7 +45,7 @@ namespace IssueManager.ViewModels
                 var dto = new LoginRequestDto
                 {
                     Email = Email,
-                    Password = passwordbox.Password
+                    Password = passwordBox.Password
                 };
 
                 var response = await _loginService.LoginAsync(dto);

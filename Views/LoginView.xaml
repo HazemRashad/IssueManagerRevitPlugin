@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IssueManager.Views"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:viewModels="clr-namespace:IssueManager.ViewModels"
-        Height="330" Width="350"
+        Title="Login" Height="420" Width="330"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     
     <hc:Window.Resources>
@@ -19,41 +19,49 @@
             </Style>
         </ResourceDictionary>
     </hc:Window.Resources>
-    
-    <Grid>
-        <Border Width="320" Padding="20" Margin="0"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Background="White" CornerRadius="10" BorderBrush="#DDD" BorderThickness="1">
 
-            <StackPanel>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Header -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,20" >
+            <Image Source="pack://application:,,,/IssueManager;component/Resources/Icons/logo.png"  Width="240" Margin="0,0,0,5"/>
+            <TextBlock Text="~Collaborate Better, Build Smarter~" FontSize="12" Foreground="#777" HorizontalAlignment="Center" />
+        </StackPanel>
 
-                <TextBlock Text="Sign In" FontSize="20" FontWeight="Bold"
-                           Margin="0 0 0 20" HorizontalAlignment="Center"/>
+        <!-- Form -->
+        <StackPanel Grid.Row="1" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Orientation="Vertical"
+                    Width="250">
 
-                <TextBlock Text="Email" Margin="0 0 0 4"/>
-                <hc:TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
-                         hc:InfoElement.Placeholder="Enter your Email"/>
+            <TextBlock Text="Email" Margin="0 0 0 ,4" FontWeight="Bold"/>
+            <hc:TextBox
+                hc:InfoElement.Placeholder="Enter your email"
+                Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                Width="Auto"
+                Height="35"/>
 
-                <TextBlock Text="Password" Margin="0 4 0 4"/>
-                <hc:PasswordBox hc:InfoElement.Placeholder="Enter your Password"
-                                x:Name="PasswordBox"/>
+            <TextBlock Text="Password" Margin="0 10 0 ,4" FontWeight="Bold"/>
+            <hc:PasswordBox
+                hc:InfoElement.Placeholder="Enter your password"
+                x:Name="PasswordBox"
+                Width="Auto"
+                ShowEyeButton="True"
+                Height="35"/>
 
-                <Button Content="Log In"
-                        x:Name="LoginButton"
-                        Margin="0 10 0 0"
-                        Height="35"
-                        HorizontalAlignment="Stretch"
-                        Style="{StaticResource ButtonPrimary}" 
+            <StackPanel Orientation= "Horizontal" HorizontalAlignment="Center">
+                <Button Content="Login"
                         Command="{Binding LoginCommand}"
-                        CommandParameter="{Binding ElementName=PasswordBox, Path=.}"/>
-
-                <!--<TextBlock HorizontalAlignment="Center" Margin="0 10 0 0">
-                    <Hyperlink>
-                        Forgot password?
-                    </Hyperlink>
-                </TextBlock>-->
+                        CommandParameter="{Binding ElementName=PasswordBox}"
+                        Style="{StaticResource ButtonPrimary}"
+                        Width="80"
+                        Margin="20"/>
 
             </StackPanel>
-        </Border>
+        </StackPanel>
     </Grid>
 </hc:Window>

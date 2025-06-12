@@ -56,7 +56,11 @@
       <None Remove="Resources\Founders\Mostafa.png" />
       <None Remove="Resources\Icons\Load.png" />
       <None Remove="Resources\Icons\login.png" />
+      <None Remove="Resources\Icons\logo.png" />
       <None Remove="Resources\Icons\SaveIssue.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Include="Resources\Icons\logo.png" />
     </ItemGroup>
 
     <ItemGroup>

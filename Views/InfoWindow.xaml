@@ -24,15 +24,13 @@
 
                 <!-- Basic Info -->
                 <TextBlock TextWrapping="Wrap" FontSize="14">
-                     <Run Text="🛠 Create Issue Plugin" FontWeight="Bold" FontSize="16"/>
+                     <Run Text="🛠 BIM ISSUE Manager (Revit Plugin)" FontWeight="Bold" FontSize="16"/>
                      <LineBreak/><LineBreak/>
                      <Run Text="This plugin allows you to report and register issues directly from within the Revit environment."/>
                      <LineBreak/><LineBreak/>
                      <Run Text="You can select model elements (such as walls, columns, or slabs), assign metadata such as project, area, priority, and assignee, and add a textual description for context."/>
                      <LineBreak/><LineBreak/>
                      <Run Text="The plugin also captures a snapshot of the current 3D view with an isolated section box around the selected elements. This visual reference helps stakeholders better understand the issue without opening Revit."/>
-                     <!--<LineBreak/><LineBreak/>
-                     <Run Text="This tool improves collaboration by enabling real-time issue documentation directly from the modeling context."/>-->
                 </TextBlock>
 
 
