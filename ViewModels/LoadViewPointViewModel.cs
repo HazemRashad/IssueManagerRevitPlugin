@@ -34,7 +34,7 @@ namespace IssueManager.ViewModels
 
         [ObservableProperty] private ProjectDto? selectedProject;
         [ObservableProperty] private IssueDto? selectedIssue;
-        [ObservableProperty] private string? selectedPriority;
+        [ObservableProperty] private Priority? selectedPriority;
         [ObservableProperty] private DateTime? selectedDate;
 
         public ObservableCollection<ProjectDto> Projects { get; set; } = new();
@@ -83,7 +83,7 @@ namespace IssueManager.ViewModels
             var issues = await _issueService.GetIssuesByProjectIdAsync(SelectedProject.ProjectId);
             var filtered = issues.AsEnumerable();
 
-            if (!string.IsNullOrEmpty(SelectedPriority))
+            if (SelectedPriority != null)
                 filtered = filtered.Where(i => i.Priority == SelectedPriority);
 
             if (SelectedDate != null)

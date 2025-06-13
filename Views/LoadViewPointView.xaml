@@ -10,7 +10,7 @@
            mc:Ignorable="d"
            d:DataContext="{d:DesignInstance viewModels:LoadViewPointViewModel}"
            ResizeMode="NoResize" Title="Load Issue"
-           Height="700" Width="550" WindowStartupLocation="CenterScreen">
+           Height="770" Width="700" WindowStartupLocation="CenterScreen">
 
     <hc:Window.Resources>
         <ResourceDictionary>
@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="/IssueManager;component/Resources/HandyControlResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="CardButtonStyle" TargetType="Button">
-                <Setter Property="Width" Value="250"/>
+                <Setter Property="Width" Value="220"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="BorderBrush" Value="#DDD"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -83,7 +83,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
 
         <!--Filter Section -->
@@ -184,7 +184,7 @@
                 <Border Grid.Column="0" BorderBrush="Gray"
                         BorderThickness="1" Margin="0"
                         CornerRadius="5">
-                    <Image Stretch="UniformToFill" 
+                    <Image Stretch="UniformToFill" Height="170"
                            Source="{Binding SelectedIssue.ImagePath}"
                            hc:Magnifier.Instance="{x:Static hc:Magnifier.Default}"/>
                 </Border>
@@ -192,8 +192,7 @@
                 <Border Grid.Column="1" BorderBrush="Gray" 
                         BorderThickness="1" Margin="4, 0, 4, 0"
                         CornerRadius="5">
-                    <TextBlock Height="120" 
-                               TextWrapping="Wrap" 
+                    <TextBlock TextWrapping="Wrap" 
                                Padding="5"
                                Text="{Binding SelectedIssue.Description}"/>
                 </Border>
