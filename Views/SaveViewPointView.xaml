@@ -41,7 +41,7 @@
             <!-- Assigned to -->
             <TextBlock Text="Assigned to:" />
             <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Users}"
-                DisplayMemberPath="UserName"
+                DisplayMemberPath="FirstName"
                 SelectedValuePath="Id"
                 SelectedValue="{Binding AssignedToUserId, Mode=TwoWay}"
             />
@@ -85,7 +85,7 @@
             <ComboBox ItemsSource="{Binding Labels}"
               DisplayMemberPath="LabelName"
               SelectedValuePath="LabelId"
-              SelectedValue="{Binding SelectedLabelId, Mode=TwoWay}"
+              SelectedItem="{Binding SelectedLabel, Mode=TwoWay}"
              Margin="0 0 0 10" 
             />
 

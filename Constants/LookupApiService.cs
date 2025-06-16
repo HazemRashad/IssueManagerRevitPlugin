@@ -15,7 +15,6 @@ namespace IssueManager.Constants
 
         public LookupApiService(HttpClient client) : base(client) { }
 
-
         public Task<List<AreaDto>> GetAreasByProjectIdAsync(int projectId)
             => GetAsync<List<AreaDto>>($"api/area/project/{projectId}");
 
@@ -25,7 +24,7 @@ namespace IssueManager.Constants
         public Task<List<LabelDto>> GetLabelsByProjectIdAsync(int projectId)
             => GetAsync<List<LabelDto>>($"api/labels/project/{projectId}/labels");
         public Task<List<ProjectDto>> GetProjectsByUserIdAsync(string userId)
-    => GetAsync<List<ProjectDto>>($"api/projects/user/{userId}");
+            => GetAsync<List<ProjectDto>>($"api/projects/user/{userId}");
     }
 
 }

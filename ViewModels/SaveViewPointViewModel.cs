@@ -89,7 +89,7 @@ namespace IssueManager.ViewModels
                 CreatedAt = DateTime.UtcNow,
                 Priority = PriorityChoice,
                 Labels = SelectedLabel is not null
-                ? new List<AssignLabelToIssueDto>
+                ? new List<AssignLabelToIssueDto> 
                 { new AssignLabelToIssueDto { LabelId = SelectedLabel.LabelId } }
                 : new List<AssignLabelToIssueDto>(),
                 RevitElements = string.IsNullOrWhiteSpace(SnapshotImagePath)
