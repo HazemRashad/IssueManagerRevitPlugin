@@ -6,14 +6,13 @@ public static class RibbonManager
     private static PushButton _loginButton;
     private static PushButton _saveButton;
     private static PushButton _loadButton;
-    private static PushButton _revitButton;
+  
 
     public static void CreateRibbon(this UIControlledApplication app)
     {
         var panel = app.CreatePanel("Commands", "IssueManager");
 
-        _revitButton = panel.AddPushButton<RevitAddinCommand>("Revit");
-        _revitButton.SetLargeImage("/IssueManager;component/Resources/Icons/RibbonIcon16.png");
+        
 
         // ⬅️ Login
         _loginButton = panel.AddPushButton<LoginViewPointCommand>("Login");
