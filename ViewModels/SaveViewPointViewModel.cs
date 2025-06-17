@@ -119,7 +119,7 @@ namespace IssueManager.ViewModels
             var created = await _issueService.CreateAsync(dto);
             if (created is not null)
             {
-                //MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
             else
@@ -169,7 +169,7 @@ namespace IssueManager.ViewModels
 
                 var rawPath = await response.Content.ReadAsStringAsync();
 
-                // تأكد إنك ماضفتش الـ base URL مرتين من API
+                
                 if (!rawPath.StartsWith("http"))
                 {
                     rawPath = "https://localhost:44374/" + rawPath.TrimStart('/');

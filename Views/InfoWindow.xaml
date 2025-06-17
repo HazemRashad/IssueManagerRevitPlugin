@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="Information"
-        Height="550" Width="500"
+        Height="560" Width="500"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize">
 
@@ -24,7 +24,8 @@
 
                 <!-- Basic Info -->
                 <TextBlock TextWrapping="Wrap" FontSize="14">
-                     <Run Text="🛠 BIM ISSUE Manager (Revit Plugin)" FontWeight="Bold" FontSize="16"/>
+                    <Image Source="/IssueManager;component/Resources/Icons/logo.png" Height="40" Width="100"   Margin="175, 0,10,0"/>
+                     <!--Run Text=" BIM ISSUE Manager " FontWeight="Bold" FontSize="16"/>-->
                      <LineBreak/><LineBreak/>
                      <Run Text="This plugin allows you to report and register issues directly from within the Revit environment."/>
                      <LineBreak/><LineBreak/>
@@ -34,7 +35,7 @@
                 </TextBlock>
 
 
-                <Separator Margin="0 15"/>
+                <Separator Margin="0 5"/>
                 <TextBlock Text="Founders:"></TextBlock>
                 <StackPanel Orientation="Horizontal">
 

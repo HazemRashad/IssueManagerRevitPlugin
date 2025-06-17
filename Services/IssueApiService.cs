@@ -21,7 +21,7 @@
                 var response = await _client.PostAsJsonAsync("api/issues/create", dto);
                 string body = await response.Content.ReadAsStringAsync();
 
-                MessageBox.Show($"Status: {response.StatusCode}\nBody:\n{body}", "DEBUG");
+               // MessageBox.Show($"Status: {response.StatusCode}\nBody:\n{body}", "DEBUG");
 
                 if (!response.IsSuccessStatusCode)
                 {
