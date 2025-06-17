@@ -119,7 +119,7 @@ namespace IssueManager.ViewModels
             var created = await _issueService.CreateAsync(dto);
             if (created is not null)
             {
-                MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Issue Created!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
             else
