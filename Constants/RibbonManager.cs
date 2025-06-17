@@ -10,7 +10,7 @@ public static class RibbonManager
 
     public static void CreateRibbon(this UIControlledApplication app)
     {
-        var panel = app.CreatePanel("Commands", "IssueManager");
+        var panel = app.CreatePanel("Commands", "Issue Manager");
 
         
 
