@@ -53,11 +53,13 @@
     <ItemGroup>
       <None Remove="Resources\Founders\Ahmed.png" />
       <None Remove="Resources\Founders\Hazem.png" />
-      <None Remove="Resources\Founders\Mostafa.png" />
       <None Remove="Resources\Icons\Load.png" />
       <None Remove="Resources\Icons\login.png" />
       <None Remove="Resources\Icons\logo.png" />
       <None Remove="Resources\Icons\SaveIssue.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Include="Resources\Founders\Ahmed.png" />
     </ItemGroup>
     <ItemGroup>
       <Resource Include="Resources\Icons\logo.png" />
@@ -102,13 +104,7 @@
     </ItemGroup>
 
 	<ItemGroup>
-        <Resource Include="Resources\Founders\Ahmed.png">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="Resources\Founders\Hazem.png">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Resources\Founders\Mostafa.png">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Resources\Icons\Load.png" />
