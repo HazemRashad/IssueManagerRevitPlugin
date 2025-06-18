@@ -1,4 +1,6 @@
-﻿namespace IssueManager.Services
+﻿using IssueManager.ApiRoutes;
+
+namespace IssueManager.Services
 {
     public class IssueApiService : ApiService
     {
@@ -47,6 +49,8 @@
         {
             return await GetAsync<List<IssueDto>>($"api/issues/project/{projectId}");
         }
+        public Task<HttpResponseMessage> UpdateResolvedStatusAsync(int id, bool status) => PutAsync($"api/issues/resolve/{id}", status);
+
 
 
     }

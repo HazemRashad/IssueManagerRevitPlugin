@@ -7,7 +7,6 @@ using DTOs.Snapshots;
 using DTOs.Users;
 using IssueManager.Revit;
 using Nice3point.Revit.Toolkit.External.Handlers;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace IssueManager.ViewModels

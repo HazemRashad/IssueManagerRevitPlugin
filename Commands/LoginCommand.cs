@@ -2,7 +2,7 @@
 {
     [UsedImplicitly]
     [Transaction(TransactionMode.Manual)]
-    public class LoginViewPointCommand : ExternalCommand
+    public class LoginCommand : ExternalCommand
     {
         public override void Execute()
         {

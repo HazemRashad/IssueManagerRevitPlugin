@@ -6,94 +6,118 @@
         xmlns:local="clr-namespace:IssueManager.Views"
         xmlns:viewmodels="clr-namespace:IssueManager.ViewModels"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-       
-        Title="Add Issue" Height="450" Width="500"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Add Issue"
+        Height="580" Width="900"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
 
     <hc:Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/IssueManager;component/Resources/HandyControlResources.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/IssueManager;component/Resources/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockDefaultBold}">
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockSubTitleBold}">
                 <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+
+            <!-- ✅ Refactored primary button style -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="Margin" Value="4" />
             </Style>
         </ResourceDictionary>
     </hc:Window.Resources>
 
-
-    <Grid Margin="12">
+    <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- ==== LEFT SIDE (Form) ==== -->
-        <StackPanel Grid.Column="0" Margin="0 0 20 0">
+        <!-- ==== LEFT PANEL ==== -->
+        <StackPanel Grid.Column="0" Margin="0,0,20,0">
 
-            <!-- Projects -->
-            <TextBlock Text="Project:" />
+            <!-- Project -->
+            <TextBlock Text="📁 Project:" Margin="0,5"/>
             <ComboBox ItemsSource="{Binding UserProjects}"
-               DisplayMemberPath="ProjectName"
-               SelectedItem="{Binding SelectedProject}"
-               Height="30" Margin="0 0 0 10"/>
+                      DisplayMemberPath="ProjectName"
+                      SelectedItem="{Binding SelectedProject}"
+                      Height="32" Margin="0 0 0 10"/>
 
-            <!-- Assigned to -->
-            <TextBlock Text="Assigned to:" />
-            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Users}"
-                DisplayMemberPath="FirstName"
-                SelectedValuePath="Id"
-                SelectedValue="{Binding AssignedToUserId, Mode=TwoWay}"
-            />
+            <!-- Assigned To -->
+            <TextBlock Text="🧑‍💻 Assigned To:" Margin="0,5"/>
+            <ComboBox ItemsSource="{Binding Users}"
+                      DisplayMemberPath="FirstName"
+                      SelectedValuePath="Id"
+                      SelectedValue="{Binding AssignedToUserId, Mode=TwoWay}"
+                      Height="32" Margin="0 0 0 10"/>
 
             <!-- Area -->
-            <TextBlock Text="Area:" />
-            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Areas}"
-                DisplayMemberPath="AreaName"
-                SelectedValuePath="AreaId"
-                SelectedValue="{Binding AreaId, Mode=TwoWay}"
-            />
+            <TextBlock Text="📌 Area:" Margin="0,5"/>
+            <ComboBox ItemsSource="{Binding Areas}"
+                      DisplayMemberPath="AreaName"
+                      SelectedValuePath="AreaId"
+                      SelectedValue="{Binding AreaId, Mode=TwoWay}"
+                      Height="32" Margin="0 0 0 10"/>
 
-            <!-- Snapshot + Buttons -->
-            <TextBlock Text="Snapshot:" />
-            <Border BorderBrush="LightGray" BorderThickness="1" Margin="0 0 0 10" CornerRadius="5">
-                <Image Height="120" Stretch="Fill" Source="{Binding SnapshotImagePath}" hc:Magnifier.Instance="{x:Static hc:Magnifier.Default}"/>
+            <!-- Snapshot -->
+            <TextBlock Text="📷 Snapshot:" Margin="0,5"/>
+            <Border BorderBrush="#CCC" BorderThickness="1" Margin="0 0 0 10" CornerRadius="6">
+                <Image Height="180" Stretch="UniformToFill"
+                       Source="{Binding SnapshotImagePath}"
+                       hc:Magnifier.Instance="{x:Static hc:Magnifier.Default}"/>
             </Border>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="📦" Width="35" Margin="2" Style="{StaticResource ButtonInfo.Small}" ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>
-                <Button Content="📷" Width="35" Margin="2" Style="{StaticResource ButtonPrimary.Small}" ToolTip="Capture Snapshot" Command="{Binding ExportSnapshotCommand}" Padding="0,-1,0,3"/>
-                <!--<Button Content="✏" Width="35" Margin="2" Style="{StaticResource ButtonSuccess.Small}" ToolTip="Desktop Application"   />-->
-                <Button Content="❌" Width="35" Margin="2" Style="{StaticResource ButtonDanger.Small}"  Command="{Binding ClearSnapshotCommand}"/>
-            </StackPanel>
 
+            <!-- Snapshot Actions -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Content="📦"
+                        ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>
+                <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Content="📷" Padding="0,-1,0,3"
+                        ToolTip="Capture Snapshot" Command="{Binding ExportSnapshotCommand}"/>
+                <Button Style="{StaticResource ButtonDanger}" Width="40" Content="❌"
+                        ToolTip="Clear Snapshot" Command="{Binding ClearSnapshotCommand}"/>
+            </StackPanel>
         </StackPanel>
 
-        <!-- ==== RIGHT SIDE (Description, Snapshot) ==== -->
+        <!-- ==== RIGHT PANEL ==== -->
         <StackPanel Grid.Column="1">
 
             <!-- Title -->
-            <TextBlock Text="Title:" />
-            <TextBox Height="30" Margin="0 0 0 10" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="💬 Title:" Margin="0,5"/>
+            <TextBox Height="32" Margin="0 0 0 10"
+                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Priority -->
-            <TextBlock Text="Priority:" />
-            <ComboBox Height="30" Margin="0 0 0 10" ItemsSource="{Binding Source={x:Static viewmodels:PriorityValues.All}}"
-          SelectedItem="{Binding PriorityChoice}"/>
+            <TextBlock Text="⚡ Priority:" Margin="0,5"/>
+            <ComboBox Height="32" Margin="0 0 0 10"
+                      ItemsSource="{Binding Source={x:Static viewmodels:PriorityValues.All}}"
+                      SelectedItem="{Binding PriorityChoice}"/>
 
             <!-- Labels -->
-            <TextBlock Text="Labels:" />
-            <ComboBox ItemsSource="{Binding Labels}"
-              DisplayMemberPath="LabelName"
-              SelectedValuePath="LabelId"
-              SelectedItem="{Binding SelectedLabel, Mode=TwoWay}"
-             Margin="0 0 0 10" 
-            />
+            <TextBlock Text="🏷 Labels:" Margin="0,5"/>
+            <ComboBox Height="32" Margin="0 0 0 10"
+                      ItemsSource="{Binding Labels}"
+                      DisplayMemberPath="LabelName"
+                      SelectedValuePath="LabelId"
+                      SelectedItem="{Binding SelectedLabel, Mode=TwoWay}"/>
 
             <!-- Description -->
-            <TextBlock Text="Description:" Margin="0 5 0 0"/>
-            <TextBox Height="120" Margin="0 0 0 10" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
-                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
-
+            <TextBlock Text="📝 Description:" Margin="0,5"/>
+            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="6" Background="White">
+                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         TextWrapping="Wrap"
+                         VerticalAlignment="Top"
+                         Padding="6"
+                         MinHeight="180"
+                         Background="White"
+                         BorderThickness="0"/>
+            </Border>
         </StackPanel>
 
         <!-- ==== Bottom Buttons ==== -->
@@ -103,10 +127,17 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Info" Width="70" Margin="4" Style="{StaticResource ButtonInfo}" Click="InfoButton_Click"/>
+            <Button Content="Info" Width="80"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Click="InfoButton_Click"/>
+
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Save" Width="70" Margin="4" Style="{StaticResource ButtonPrimary}"  Command="{Binding SaveCommand}"/>
-                <Button Content="Cancel" Width="70" Margin="4" Style="{StaticResource ButtonDanger}" Command="{Binding CancelCommand}"/>
+                <Button Content="Save" Width="80"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding SaveCommand}"/>
+                <Button Content="Cancel" Width="80"
+                        Style="{StaticResource ButtonDanger}"
+                        Command="{Binding CancelCommand}"/>
             </StackPanel>
         </Grid>
     </Grid>
