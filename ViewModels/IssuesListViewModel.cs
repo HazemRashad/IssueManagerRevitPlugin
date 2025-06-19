@@ -1,5 +1,6 @@
 ﻿using DTOs.Comments;
 using DTOs.Projects;
+using DTOs.Issues;
 using IssueManager.Revit;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using System.Collections.ObjectModel;
@@ -9,37 +10,35 @@ public partial class IssuesListViewModel : ObservableObject
 {
     private readonly LookupApiService _lookupService;
     private readonly IssueApiService _issueService;
+    private readonly AsyncEventHandler _asyncEventHandler = new();
+
+    // 🔹 All issues used for search/filtering
+    private List<IssueDto> _allIssues = new();
 
     public IssuesListViewModel(LookupApiService lookupService, IssueApiService issueService)
     {
         _lookupService = lookupService;
         _issueService = issueService;
 
-        LoadAllIssuesAsync();
         LoadUserProjectsAsync();
         LoadPriorities();
+        LoadAllIssuesAsync();
 
-        ApplyFilterCommand = new RelayCommand(async () => await FilterIssuesAsync());
-        ResetFilterCommand = new RelayCommand(async () =>
-        {
-            SelectedPriority = null;
-            SelectedDate = null;
-            SelectedProject = null;
-            Issues.Clear();
-            LoadAllIssuesAsync();
-        });
-
+        ApplyFilterCommand = new RelayCommand(async () => await ApplyFilterAsync());
+        ResetFilterCommand = new RelayCommand(async () => await ResetFilterAsync());
         OpenIssueDetailsViewCommand = new RelayCommand<IssueDto>(OpenIssueDetails);
         AddIssueCommand = new RelayCommand(AddIssue);
     }
 
+    // 🔹 Observable Bindings
     [ObservableProperty] private ProjectDto? selectedProject;
     [ObservableProperty] private IssueDto? selectedIssue;
     [ObservableProperty] private Priority? selectedPriority;
     [ObservableProperty] private DateTime? selectedDate;
+    [ObservableProperty] private string searchQuery;
+    [ObservableProperty] private ObservableCollection<IssueDto> issues = new();
 
     public ObservableCollection<ProjectDto> Projects { get; set; } = new();
-    public ObservableCollection<IssueDto> Issues { get; set; } = new();
     public ObservableCollection<string> Priorities { get; set; } = new();
 
     public ICommand AddIssueCommand { get; }
@@ -47,15 +46,15 @@ public partial class IssuesListViewModel : ObservableObject
     public ICommand ResetFilterCommand { get; }
     public ICommand OpenIssueDetailsViewCommand { get; }
 
-    private void LoadPriorities()
+    // 🔹 Reactive search
+    partial void OnSearchQueryChanged(string value) => RefreshView();
+
+    partial void OnSelectedProjectChanged(ProjectDto? value)
     {
-        Priorities.Clear();
-        foreach (var name in Enum.GetNames(typeof(Priority)))
-        {
-            Priorities.Add(name);
-        }
+        _ = LoadAndFilterIssuesAsync();
     }
 
+    // 🔹 Load all projects for filter ComboBox
     private async Task LoadUserProjectsAsync()
     {
         if (string.IsNullOrWhiteSpace(AppSession.UserId)) return;
@@ -66,30 +65,35 @@ public partial class IssuesListViewModel : ObservableObject
             Projects.Add(project);
     }
 
-    private async Task LoadIssuesAsync()
+    private void LoadPriorities()
     {
-        if (SelectedProject == null) return;
-
-        var issues = await _issueService.GetIssuesByProjectIdAsync(SelectedProject.ProjectId);
-        Issues.Clear();
-        foreach (var issue in issues)
-            Issues.Add(issue);
+        Priorities.Clear();
+        foreach (var name in Enum.GetNames(typeof(Priority)))
+            Priorities.Add(name);
     }
+
+    // 🔹 Load all issues
     private async Task LoadAllIssuesAsync()
     {
         var issues = await _issueService.GetAllAsync();
-        Issues.Clear();
-        if (issues == null) return;
-        foreach (var issue in issues)
-            Issues.Add(issue);
+        _allIssues = issues?.ToList() ?? new();
+        RefreshView();
     }
 
-    private async Task FilterIssuesAsync()
+    // 🔹 Load issues by project
+    private async Task LoadAndFilterIssuesAsync()
     {
         if (SelectedProject == null) return;
 
         var issues = await _issueService.GetIssuesByProjectIdAsync(SelectedProject.ProjectId);
-        var filtered = issues.AsEnumerable();
+        _allIssues = issues?.ToList() ?? new();
+        RefreshView();
+    }
+
+    // 🔹 Filters + Search Applied Here
+    private void RefreshView()
+    {
+        var filtered = _allIssues.AsEnumerable();
 
         if (SelectedPriority != null)
             filtered = filtered.Where(i => i.Priority == SelectedPriority);
@@ -97,37 +101,56 @@ public partial class IssuesListViewModel : ObservableObject
         if (SelectedDate != null)
             filtered = filtered.Where(i => i.CreatedAt.Date == SelectedDate.Value.Date);
 
-        Issues.Clear();
-        foreach (var issue in filtered)
-            Issues.Add(issue);
+        if (!string.IsNullOrWhiteSpace(SearchQuery))
+            filtered = filtered.Where(i =>
+                i.Title.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                (i.Description?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false));
+
+        Issues = new ObservableCollection<IssueDto>(filtered);
     }
 
-    private readonly AsyncEventHandler _asyncEventHandler = new();
+    // 🔹 Called by UI
+    private async Task ApplyFilterAsync()
+    {
+        await LoadAndFilterIssuesAsync();
+    }
 
+    private async Task ResetFilterAsync()
+    {
+        SelectedPriority = null;
+        SelectedDate = null;
+        SelectedProject = null;
+        SearchQuery = string.Empty;
+
+        await LoadAllIssuesAsync();
+    }
+
+    // 🔹 Issue Details
     [RelayCommand]
     private async Task SetSelectedIssue(IssueDto issue)
     {
         SelectedIssue = issue;
         if (SelectedIssue is null) return;
+
         await _asyncEventHandler.RaiseAsync(_ =>
         {
             RevitIssue.NavigateToViewPointAndSelectElements(issue);
         });
+
         OpenIssueDetails(issue);
     }
 
     private void OpenIssueDetails(IssueDto? issue)
     {
         if (issue == null) return;
-
         var command = new IssueDetailsCommand(issue);
         command.Execute();
     }
 
+    // 🔹 Add New Issue
     private void AddIssue()
     {
         var command = new SaveViewPointCommand();
         command.Execute();
     }
-
 }

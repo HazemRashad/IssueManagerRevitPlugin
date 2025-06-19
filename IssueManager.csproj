@@ -54,10 +54,13 @@
       <None Remove="Resources\Founders\Ahmed.png" />
       <None Remove="Resources\Founders\Hazem.png" />
       <None Remove="Resources\Founders\Mostafa.png" />
+      <None Remove="Resources\Icons\Issue.png" />
+      <None Remove="Resources\Icons\List.png" />
       <None Remove="Resources\Icons\Load.png" />
       <None Remove="Resources\Icons\login.png" />
       <None Remove="Resources\Icons\logo.png" />
       <None Remove="Resources\Icons\SaveIssue.png" />
+      <None Remove="Resources\Icons\User.png" />
     </ItemGroup>
     <ItemGroup>
       <Resource Include="Resources\Founders\Ahmed.png" />
@@ -106,12 +109,15 @@
         <Resource Include="Resources\Founders\Hazem.png">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
+        <Resource Include="Resources\Icons\Issue.png" />
+        <Resource Include="Resources\Icons\List.png" />
         <Resource Include="Resources\Icons\Load.png" />
         <Resource Include="Resources\Icons\login.png" />
         <Resource Include="Resources\Icons\logo.png" />
         <Resource Include="Resources\Icons\RibbonIcon16.png" />
         <Resource Include="Resources\Icons\RibbonIcon32.png" />
         <Resource Include="Resources\Icons\SaveIssue.png" />
+        <Resource Include="Resources\Icons\User.png" />
     </ItemGroup>
 
 </Project>
