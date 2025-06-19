@@ -1,4 +1,6 @@
-﻿namespace IssueManager.ViewModels
+﻿using System.Windows.Threading;
+
+namespace IssueManager.ViewModels
 {
     public partial class IssueDetailsViewModel : ObservableObject
     {
@@ -38,6 +40,27 @@
         {
             Issue = await _issueApiService.GetByIdAsync(issueId);
         }
+
+        [RelayCommand]
+        private async Task AddCommentAsync()
+        {
+            if (Issue is null) return;
+
+            var command = new CommentCommand(Issue, async () =>
+            {
+                var updated = await _issueApiService.GetByIdAsync(Issue.IssueId);
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    Issue.Comments = updated.Comments;
+                    OnPropertyChanged(nameof(Issue));
+                });
+
+            });
+
+            command.Execute();
+        }
+
+
     }
 
 }

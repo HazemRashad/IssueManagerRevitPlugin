@@ -84,41 +84,57 @@
         </StackPanel>
 
         <!-- ==== RIGHT PANEL ==== -->
-        <StackPanel Grid.Column="1">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
             <!-- Title -->
-            <TextBlock Text="💬 Title:" Margin="0,5"/>
-            <TextBox Height="32" Margin="0 0 0 10"
-                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="💬 Title:" Margin="0,5"/>
+                <TextBox Height="32" Margin="0 0 0 10"
+                         Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
 
             <!-- Priority -->
-            <TextBlock Text="⚡ Priority:" Margin="0,5"/>
-            <ComboBox Height="32" Margin="0 0 0 10"
-                      ItemsSource="{Binding Source={x:Static viewmodels:PriorityValues.All}}"
-                      SelectedItem="{Binding PriorityChoice}"/>
+            <StackPanel Grid.Row="1">
+                <TextBlock Grid.Row="1" Text="⚡ Priority:" Margin="0 5"/>
+                <ComboBox Grid.Row="1" Height="32" Margin="0 0 0 10"
+                          ItemsSource="{Binding Source={x:Static viewmodels:PriorityValues.All}}"
+                          SelectedItem="{Binding PriorityChoice}"/>
+            </StackPanel>
 
             <!-- Labels -->
-            <TextBlock Text="🏷 Labels:" Margin="0,5"/>
-            <ComboBox Height="32" Margin="0 0 0 10"
-                      ItemsSource="{Binding Labels}"
-                      DisplayMemberPath="LabelName"
-                      SelectedValuePath="LabelId"
-                      SelectedItem="{Binding SelectedLabel, Mode=TwoWay}"/>
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="🏷 Labels:" Margin="0,5"/>
+                <ComboBox Height="32" Margin="0 0 0 10"
+                  ItemsSource="{Binding Labels}"
+                  DisplayMemberPath="LabelName"
+                  SelectedValuePath="LabelId"
+                  SelectedItem="{Binding SelectedLabel, Mode=TwoWay}"/>
+            </StackPanel>
 
             <!-- Description -->
-            <TextBlock Text="📝 Description:" Margin="0,5"/>
-            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="6" Background="White">
-                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                         AcceptsReturn="True"
-                         VerticalScrollBarVisibility="Auto"
-                         TextWrapping="Wrap"
-                         VerticalAlignment="Top"
-                         Padding="6"
-                         MinHeight="180"
-                         Background="White"
-                         BorderThickness="0"/>
+            <TextBlock Grid.Row="3" Text="📝 Description:" Margin="0 5"/>
+            <Border 
+                Grid.Row="4" BorderBrush="#CCC" Margin="0,0,0,85"
+                BorderThickness="1" CornerRadius="6" Background="White">
+                <TextBox hc:InfoElement.Placeholder="Write a Description"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalContentAlignment="Top"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap"
+                 Padding="6"
+                 Background="White"
+                 BorderThickness="0"/>
             </Border>
-        </StackPanel>
+        </Grid>
+
 
         <!-- ==== Bottom Buttons ==== -->
         <Grid Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0 20 0 0">
