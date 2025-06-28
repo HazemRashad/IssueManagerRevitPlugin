@@ -33,6 +33,7 @@ namespace IssueManager.ViewModels
                 return;
 
             await _issueApiService.DeleteAsync(Issue.IssueId);
+            //RequestClose.Invoke();
             MessageBox.Show("Issue deleted.");
         }
 

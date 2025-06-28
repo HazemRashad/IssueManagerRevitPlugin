@@ -8,7 +8,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="Add Issue"
         Height="580" Width="900"
-        ResizeMode="NoResize"
+        
         WindowStartupLocation="CenterScreen">
 
     <hc:Window.Resources>

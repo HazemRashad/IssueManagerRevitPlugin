@@ -7,7 +7,8 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:IssueManager.Views"
         mc:Ignorable="d"
-        Title="Issues List" Height="600" Width="1100">
+        Title="Issues List" Height="600" Width="1100"
+           WindowStartupLocation="CenterScreen">
 
     <hc:Window.Resources>
         <ResourceDictionary>

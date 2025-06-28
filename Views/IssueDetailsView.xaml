@@ -10,7 +10,7 @@
         Title="Issue Details" 
         Width="960" Height="640"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        >
 
     <hc:Window.Resources>
         <ResourceDictionary>
@@ -172,29 +172,9 @@
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
 
-            <!-- 📝 Description -->
-            <StackPanel Grid.Column="0" Margin="0,0,20,0">
-                <TextBlock Text="📝 Description:"
-                   FontWeight="SemiBold"
-                   FontSize="16"
-                   Margin="0,0,0,6"/>
-                <Border Background="WhiteSmoke" Padding="10" CornerRadius="6">
-                    <TextBlock Text="{Binding Issue.Description}"
-                       TextWrapping="Wrap"
-                       TextAlignment="Justify"
-                       FontSize="14"
-                       Foreground="#333"/>
-                </Border>
-            </StackPanel>
-
-            <!-- Divider -->
-            <hc:Divider Grid.Column="1"
-                LineStrokeThickness="2"
-                Orientation="Vertical"
-                Margin="10,0"/>
-
+            
             <!-- 💬 Comments -->
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -243,6 +223,29 @@
                     </ItemsControl>
                 </ScrollViewer>
             </Grid>
+
+            <!-- Divider -->
+            <hc:Divider Grid.Column="1"
+                LineStrokeThickness="2"
+                Orientation="Vertical"
+                Margin="10,0"/>
+            <!-- 📝 Description -->
+            <StackPanel Grid.Column="2" Margin="0,0,20,0">
+                <TextBlock Text="📝 Description:"
+                     FontWeight="SemiBold"
+                     FontSize="16"
+                     Margin="0,0,0,6"/>
+                <Border Background="WhiteSmoke" Padding="10" CornerRadius="6">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="200">
+                        <TextBlock Text="{Binding Issue.Description}"
+               TextWrapping="Wrap"
+               TextAlignment="Justify"
+               FontSize="14"
+               Foreground="#333"
+               Padding="5"/>
+                    </ScrollViewer>
+                </Border>
+            </StackPanel>
         </Grid>
     </Grid>
 </hc:Window>
