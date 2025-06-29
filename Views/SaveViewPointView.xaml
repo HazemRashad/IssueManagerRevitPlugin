@@ -74,9 +74,9 @@
 
             <!-- Snapshot Actions -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Content="📦"
+                <Button Style="{StaticResource ButtonPrimary}" Margin="0,0,5,0" Width="40" Content="📦"
                         ToolTip="Create Section Box" Command="{Binding SectionBoxCommand}"/>
-                <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Content="📷" Padding="0,-1,0,3"
+                <Button Style="{StaticResource ButtonPrimary}" Width="40" Margin="0,0,5,0" Content="📷" Padding="0,-1,0,3"
                         ToolTip="Capture Snapshot" Command="{Binding ExportSnapshotCommand}"/>
                 <Button Style="{StaticResource ButtonDanger}" Width="40" Content="❌"
                         ToolTip="Clear Snapshot" Command="{Binding ClearSnapshotCommand}"/>
@@ -140,18 +140,19 @@
         <Grid Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0 20 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="79*"/>
+                <ColumnDefinition Width="701*"/>
             </Grid.ColumnDefinitions>
 
             <Button Content="Info" Width="80"
-                    Style="{StaticResource PrimaryButtonStyle}"
+                    Style="{StaticResource ButtonPrimary}"
                     Click="InfoButton_Click"/>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Save" Width="80"
-                        Style="{StaticResource PrimaryButtonStyle}"
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="541,0,0,0">
+                <Button Content="Save" Width="80" Margin="0,0,5,0"
+                        Style="{StaticResource ButtonPrimary}"
                         Command="{Binding SaveCommand}"/>
-                <Button Content="Cancel" Width="80"
+                <Button Content="Cancel" Width="80" 
                         Style="{StaticResource ButtonDanger}"
                         Command="{Binding CancelCommand}"/>
             </StackPanel>
