@@ -238,11 +238,11 @@
                 <Border Background="WhiteSmoke" Padding="10" CornerRadius="6">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Height="200">
                         <TextBlock Text="{Binding Issue.Description}"
-               TextWrapping="Wrap"
-               TextAlignment="Justify"
-               FontSize="14"
-               Foreground="#333"
-               Padding="5"/>
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Justify"
+                                   FontSize="14"
+                                   Foreground="#333"
+                                   Padding="5"/>
                     </ScrollViewer>
                 </Border>
             </StackPanel>
