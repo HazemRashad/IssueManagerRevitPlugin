@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:IssueManager.ViewModels"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="Add Issue"
-        Height="580" Width="900"
+        Height="580" Width="910"
         
         WindowStartupLocation="CenterScreen">
 
